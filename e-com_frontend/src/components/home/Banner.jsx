@@ -59,7 +59,7 @@ const PrevArrow = ({ onClick }) => (
         <Slider {...settings}>
                 {banners.map((item)=>(
                 <>
-                <img src={item.image} alt="banner" className="w-full h-200" />
+                <img src={item.image} alt="banner" className="w-full h-195 object-cover" />
                 </>
             ))}
             </Slider>

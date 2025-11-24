@@ -2,12 +2,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ShoppingCart, User, Search, Menu, X } from "lucide-react";
+import Container from "./Container";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="w-full bg-white shadow-md sticky top-0 z-50">
+    <Container>
+      <header className="w-full bg-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
 
         {/* Logo */}
@@ -55,7 +57,7 @@ export default function Header() {
           <Link href="/cart" className="relative text-gray-700 hover:text-red-600">
             <ShoppingCart size={22} />
             <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
-              3
+              0
             </span>
           </Link>
 
@@ -102,5 +104,7 @@ export default function Header() {
         </div>
       )}
     </header>
+    </Container>
+    
   );
 }
