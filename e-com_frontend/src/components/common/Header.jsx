@@ -51,7 +51,7 @@ export default function Header() {
 
         {/* Right Icons */}
         <div className="flex items-center space-x-5">
-          <Link href="/account" className="text-gray-700 hover:text-red-600">
+          <Link href="/login" className="text-gray-700 hover:text-red-600">
             <User size={22} />
           </Link>
           <Link href="/cart" className="relative text-gray-700 hover:text-red-600">
