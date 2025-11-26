@@ -1,6 +1,12 @@
-import { Roboto, Cormorant_Garamond, Rochester, Great_Vibes } from "next/font/google";
+import {
+  Roboto,
+  Cormorant_Garamond,
+  Rochester,
+  Great_Vibes,
+} from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "@/components/redux/ReduxProvider";
+import VerifyUser from "@/components/VerifyUser";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -38,9 +44,8 @@ export default function RootLayout({ children }) {
         className={`${roboto.variable} ${paragraph.variable} ${heading.variable} ${logo.variable} antialiased`}
       >
         <ReduxProvider>
-          {children}
+          <VerifyUser>{children}</VerifyUser>
         </ReduxProvider>
-        
       </body>
     </html>
   );
