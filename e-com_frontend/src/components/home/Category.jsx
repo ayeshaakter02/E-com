@@ -4,7 +4,6 @@ import Container from '../common/Container'
 const Category = async () => {
     const res = await fetch (`${process.env.NEXT_PUBLIC_API}/category/allcategory`)
     const {data} = await res.json()
-    console.log(data)
   return (
     <div>
         <Container>
@@ -23,7 +22,9 @@ const Category = async () => {
               className="w-full h-full object-cover object-top"
             />
           </div>
-          <div className="p-3 pb-1.5 text-center">
+          <div 
+          key={item._id}
+          className="p-3 pb-1.5 text-center">
             <h6 className="text-slate-900 text-sm font-bold truncate">
               {item.name}
             </h6>
