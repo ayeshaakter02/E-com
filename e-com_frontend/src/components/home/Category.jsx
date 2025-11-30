@@ -16,10 +16,10 @@ const Category = async () => {
       {data.map((item)=>(
         <div className="shadow-sm bg-white p-1.5 rounded-md overflow-hidden cursor-pointer relative hover:shadow-md">
         <a href="javascript:void(0);" className="block">
-          <div className="bg-gray-200 aspect-square">
+          <div className="aspect-square">
             <img
               src={item.image}
-              className="w-full h-full object-cover object-top"
+              className="w-full h-full rounded-full object-cover object-top"
             />
           </div>
           <div 

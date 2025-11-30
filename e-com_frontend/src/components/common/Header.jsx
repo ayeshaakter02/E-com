@@ -10,7 +10,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Get user data from Redux store
-  const user = useSelector((state) => state.userInfo.value);
+  const user = useSelector((state) => state?.userInfo);
 console.log(user)
 
   return (
@@ -57,7 +57,7 @@ console.log(user)
           <div className="flex items-center space-x-5">
             {user ? (
               <span className="text-gray-700 font-medium hidden md:inline">
-                Hi, {user?.name}
+                Hi, {user.name}
               </span>
             ) : (
               <Link href="/login" className="text-gray-700 hover:text-red-600">
@@ -116,7 +116,7 @@ console.log(user)
             {/* Mobile User Greeting */}
             {user && (
               <p className="mt-3 text-gray-700 font-medium">
-                Hi, {user?.name}
+                Hi, {user.name}
               </p>
             )}
           </div>

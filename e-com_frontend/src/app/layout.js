@@ -6,7 +6,8 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "@/components/redux/ReduxProvider";
-import VerifyUser from "@/components/VerifyUser";
+import VerifyUser from "@/components/verifyuser/VerifyUser";
+
 
 const roboto = Roboto({
   variable: "--font-roboto",
