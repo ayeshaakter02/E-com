@@ -10,7 +10,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Get user data from Redux store
-  const user = useSelector((state) => state?.userInfo);
+  const user = useSelector((state) => state?.userInfo?.value);
 console.log(user)
 
   return (
