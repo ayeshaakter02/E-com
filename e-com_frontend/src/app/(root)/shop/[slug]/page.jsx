@@ -3,6 +3,9 @@
 import axios from 'axios'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import { FaBangladeshiTakaSign } from "react-icons/fa6";
+import InnerImageZoom from 'react-inner-image-zoom'
+import 'react-inner-image-zoom/lib/styles.min.css'
 
 const page = () => {
   let [product, setProduct] = useState({})
@@ -23,44 +26,24 @@ const page = () => {
       <div className="w-full lg:sticky top-0">
         <div className="flex flex-col gap-4">
           <div className="bg-white shadow-sm p-2">
-            <img
-              src={activeImage}
-              alt="Product"
-              className="w-full aspect-[8/8] object-cover object-top"
-            />
+                        <InnerImageZoom
+  src={activeImage}
+  zoomSrc="/path/to/zoom-image.jpg"
+  width={750}
+  height={500}
+  hasSpacer={true}
+  className='w-full aspect-4/5 object-cover object-topt-'
+/>
           </div>
           <div className="bg-white shadow-sm p-2 w-full max-w-full overflow-auto">
-            <div className="flex justify-between flex-row gap-4 shrink-0">
-              <img
-                src="https://readymadeui.com/images/sunscreen-img-1.webp"
+            <div className="flex flex-row gap-4 shrink-0">
+              {product?.image?.map((imgurl)=>(
+                <img onClick={()=>setActiveImage(imgurl)}
+                src={imgurl}
                 alt="Product1"
                 className="w-16 h-16 aspect-square object-cover object-top cursor-pointer shadow-md border-b-2 border-black"
               />
-              <img
-                src="https://readymadeui.com/images/sunscreen-img-2.webp"
-                alt="Product2"
-                className="w-16 h-16 aspect-square object-cover object-top cursor-pointer shadow-md border-b-2 border-transparent"
-              />
-              <img
-                src="https://readymadeui.com/images/sunscreen-img-3.webp"
-                alt="Product3"
-                className="w-16 h-16 aspect-square object-cover object-top cursor-pointer shadow-md border-b-2 border-transparent"
-              />
-              <img
-                src="https://readymadeui.com/images/sunscreen-img-4.webp"
-                alt="Product4"
-                className="w-16 h-16 aspect-square object-cover object-top cursor-pointer shadow-md border-b-2 border-transparent"
-              />
-              <img
-                src="https://readymadeui.com/images/sunscreen-img-5.webp"
-                alt="Product5"
-                className="w-16 h-16 aspect-square object-cover object-top cursor-pointer shadow-md border-b-2 border-transparent"
-              />
-              <img
-                src="https://readymadeui.com/images/sunscreen-img-6.webp"
-                alt="Product6"
-                className="w-16 h-16 aspect-square object-cover object-top cursor-pointer shadow-md border-b-2 border-transparent"
-              />
+              ))}
             </div>
           </div>
         </div>
@@ -126,13 +109,13 @@ const page = () => {
           </div>
           <div className="flex items-center flex-wrap gap-2 mt-6">
             <p className="text-slate-500 text-base">
-              <strike>{product.price}</strike>
+              <strike className='flex items-center'>{product.price} <FaBangladeshiTakaSign className='text-sm'/></strike>
             </p>
-            <h4 className="text-purple-800 text-2xl sm:text-3xl font-semibold">
-              {product.discountprice}
+            <h4 className="text-purple-800 text-xl sm:text-3xl font-semibold flex items-center">
+              {product.discountprice} <FaBangladeshiTakaSign className='text-lg'/>
             </h4>
-            <div className="flex py-1 px-2 bg-purple-600 font-semibold !ml-4">
-              <span className="text-white text-sm">save 10%</span>
+            <div className="flex py-1 px-2 bg-purple-600 font-semibold !ml-4 ">
+              <span className="text-white text-sm flex items-center">save {product.price-product.discountprice} <FaBangladeshiTakaSign /></span>
             </div>
           </div>
           <div>
