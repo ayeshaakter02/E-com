@@ -161,7 +161,7 @@ const page = () => {
                     {product.discountprice}{" "}
                     <FaBangladeshiTakaSign className="text-lg" />
                   </h4>
-                  <div className="flex py-1 px-2 bg-purple-600 font-semibold !ml-4 ">
+                  <div className="flex py-1 px-2 bg-purple-600 font-semibold ml-4 ">
                     <span className="text-white text-sm flex items-center">
                       save {product.price - product.discountprice}{" "}
                       <FaBangladeshiTakaSign />

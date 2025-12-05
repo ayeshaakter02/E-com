@@ -18,21 +18,21 @@ const Collection = () => {
             </div>
             <div>
               <div className="bg-cover bg-center h-[285px] w-[690px]" style={{ backgroundImage: "url('../images/man-collection.png')" }}>
-                <div className="pt-[152px] pl-[40px]">
+                <div className="pt-[152px] pl-10">
                     <p className="font-normal text-sm leading-6">HOT LIST</p>
                     <h2 className="font-bold"><span className="font-extrabold">MEN</span>  COLLECTION</h2>
-                    <Link href="/shop" className="mt-[5px] font-semibold"><span className="border-b-1">SHOP</span> NOW</Link>
+                    <Link href="/shop" className="mt-[5px] font-semibold"><span className="border-b">SHOP</span> NOW</Link>
                 </div>
               </div>
               <div className="mt-7.5 flex gap-7.5">
                 <div className="bg-cover bg-center h-[285px] w-[330px]" style={{ backgroundImage: "url('../images/kids-collection.png')" }}>
-                  <div className="pt-[152px] pl-[40px]">
+                  <div className="pt-[152px] pl-10">
                     <p className="font-normal text-sm leading-6">HOT LIST</p>
                     <h2 className="font-bold"><span className="font-extrabold">KIDS</span>  COLLECTION</h2>
-                    <Link href="/shop" className="mt-[5px] font-semibold"><span className="border-b-1">SHOP</span> NOW</Link>
+                    <Link href="/shop" className="mt-[5px] font-semibold"><span className="border-b">SHOP</span> NOW</Link>
                 </div>
                 </div>
-                <div className="w-[330px] bg-[#F5E6E0] pt-[109px] pl-[40px]">
+                <div className="w-[330px] bg-[#F5E6E0] pt-[109px] pl-10">
                   <h2>
                     <span className="font-bold">E-GIFT</span>CARDS
                   </h2>
