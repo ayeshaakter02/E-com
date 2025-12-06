@@ -8,7 +8,7 @@ const Products = async () => {
   const { data } = await res.json();
   return (
     <Container>
-      <div className="w-[1427px] mx-auto">
+      <div className="xl:w-[1427px] mx-auto">
         <h2 className="w-[407px] mx-auto text-[35px] font-normal">
           OUR TRENDY <span className="font-bold"> PRODUCTS</span>
         </h2>

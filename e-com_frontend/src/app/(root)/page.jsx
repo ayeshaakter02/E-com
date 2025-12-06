@@ -2,6 +2,7 @@ import Banner from '@/components/home/Banner'
 import Category from '@/components/home/Category'
 import Collection from '@/components/home/Collection'
 import Products from '@/components/home/Products'
+import SpringCollection from '@/components/home/SpringCollection'
 import React from 'react'
 
 const page = () => {
@@ -11,6 +12,7 @@ const page = () => {
       {/* <Category/> */}
       <Collection/>
       <Products/>
+      <SpringCollection/>
     </div>
   )
 }
