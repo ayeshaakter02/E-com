@@ -25,6 +25,7 @@ const Collection = () => {
         <div className="flex gap-2 2xl:gap-12">
 
           {/* Women Collection */}
+          <Link href={`/category/${women?.slug}`}>
           <div
             className="bg-cover bg-center w-117 xl:h-[600px] xl:w-[690px]"
             style={{ backgroundImage: `url('${women?.image}')` }}
@@ -35,14 +36,17 @@ const Collection = () => {
                 <span className="font-extrabold text-lg">{women?.name?.split(" ")[0]} </span>
                 COLLECTION
               </h2>
-              <Link href={`/category/${women?.slug}`} className="mt-[5px] font-semibold">
+              <p className="mt-[5px] font-semibold">
                 <span className="border-b">SHOP</span> NOW
-              </Link>
+              </p>
             </div>
           </div>
+          </Link>
+          
 
           <div>
             {/* Men Collection */}
+            <Link href={`/category/${men?.slug}`}>
             <div
               className="bg-cover bg-center w-117 xl:h-[285px] xl:w-[690px]"
               style={{ backgroundImage: `url('${men?.image}')` }}
@@ -52,14 +56,16 @@ const Collection = () => {
                 <h2 className="font-bold">
                   <span className="font-extrabold">MEN</span> COLLECTION
                 </h2>
-                <Link href={`/category/${men?.slug}`} className="mt-[5px] font-semibold">
+                <p className="mt-[5px] font-semibold">
                   <span className="border-b">SHOP</span> NOW
-                </Link>
+                </p>
               </div>
             </div>
-
+            </Link>
+            
             <div className="mt-3 xl:mt-7.5 flex gap-2 xl:gap-7.5">
               {/* Kids Collection */}
+              <Link href={`/category/${kids?.slug}`}>
               <div
                 className="bg-cover bg-center w-57.5 pb-8  xl:h-[285px] xl:w-[330px]"
                 style={{ backgroundImage: `url('${kids?.image}')` }}
@@ -69,11 +75,12 @@ const Collection = () => {
                   <h2 className="font-bold">
                     <span className="font-extrabold">KIDS</span> COLLECTION
                   </h2>
-                  <Link href={`/category/${kids?.slug}`} className="mt-[5px] font-semibold">
+                  <p className="mt-[5px] font-semibold">
                     <span className="border-b">SHOP</span> NOW
-                  </Link>
+                  </p>
                 </div>
               </div>
+              </Link>
 
               {/* E-Gift Card (Static) */}
               <div className="w-57.5 pb-8 xl:w-[330px] bg-[#F5E6E0] pt-[109px] pl-10">

@@ -26,7 +26,7 @@ const Products = async () => {
               <div className="aspect-square">
                 <img
                 className="mb-3.5 w-full h-full object-cover object-top"
-                src={item.image}
+                src={item?.image}
                 alt=""
               />
               </div>
@@ -34,9 +34,9 @@ const Products = async () => {
               <div key={item._id} className="p-3 pb-1.5">
                 <p className="font-normal text-sm">Dresses</p>
                 <h6 className="text-slate-900 text-sm font-bold truncate">
-                  {item.title}
+                  {item?.title}
                 </h6>
-                <h4>{item.price} BDT</h4>
+                <h4>{item?.price} BDT</h4>
               </div>
             </div>
           ))}

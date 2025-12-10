@@ -31,8 +31,13 @@ const page = () => {
       {items.map((item) => (
         <div
           key={item._id}
-          className="border rounded-lg p-4 mb-4 shadow hover:shadow-lg transition"
+          className="w-100 rounded-lg p-4 mb-4 shadow hover:shadow-lg transition"
         >
+          <img
+            src={item.image}
+            alt={item.title}
+            className="w-48 h-48 object-cover mt-2 rounded"
+          />
           <h2 className="text-xl font-semibold">{item.title}</h2>
           <p className="text-gray-600">{item.description}</p>
           <p className="font-bold mt-2">Price: BDT {item.price}</p>
@@ -40,11 +45,6 @@ const page = () => {
             Category: {item.subcategory?.category?.name || "N/A"} /{" "}
             {item.subcategory?.name || "N/A"}
           </p>
-          <img
-            src={item.image}
-            alt={item.title}
-            className="w-48 h-48 object-cover mt-2 rounded"
-          />
         </div>
       ))}
     </div>
