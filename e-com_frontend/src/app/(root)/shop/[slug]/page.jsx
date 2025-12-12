@@ -18,7 +18,6 @@ const page = () => {
 
   // Get user data from Redux store
   const user = useSelector((state) => state?.userInfo?.value);
- 
   useEffect(() => {
     axios
       .get(`${process.env.NEXT_PUBLIC_API}/product/allproduct/${slug}`)
@@ -27,8 +26,8 @@ const page = () => {
         setActiveImage(res.data.data.image[0]);
 
         // auto-select variant if singleVariant
-        if (res.data.data.variantType === "multiVariant") {
-          setSelectedVariant(res.data.data.variants[0].size);
+        if (res.data.data.variantType === "multivariant") {
+          setSelectedVariant(res.data.data.variants[0]);
         }
       });
   }, [slug]);
@@ -51,7 +50,7 @@ const page = () => {
         quantity: qty,
       });
 
-      alert("please added to cart");
+      alert("Product added to cart");
     } catch (err) {
       console.log(err);
       alert("Failed to add to cart");
@@ -96,55 +95,6 @@ const page = () => {
                 <h3 className="text-lg sm:text-xl font-semibold text-slate-900">
                   {product.title}
                 </h3>
-                {/* <div className="flex items-center gap-3 mt-2">
-                  <div className="flex items-center gap-1">
-                    <p className="text-base text-slate-500">4</p>
-                    <svg
-                      className="w-3.5 h-3.5 fill-purple-600"
-                      viewBox="0 0 14 13"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                    </svg>
-                    <svg
-                      className="w-3.5 h-3.5 fill-purple-600"
-                      viewBox="0 0 14 13"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                    </svg>
-                    <svg
-                      className="w-3.5 h-3.5 fill-purple-600"
-                      viewBox="0 0 14 13"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                    </svg>
-                    <svg
-                      className="w-3.5 h-3.5 fill-purple-600"
-                      viewBox="0 0 14 13"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                    </svg>
-                    <svg
-                      className="w-3.5 h-3.5 fill-[#CED5D8]"
-                      viewBox="0 0 14 13"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                    </svg>
-                  </div>
-                  <span className="text-slate-500">|</span>
-                  <p className="text-sm text-slate-500">76 Ratings</p>
-                  <span className="text-slate-500">|</span>
-                  <p className="text-sm text-slate-500">50 Reviews</p>
-                </div> */}
                 <div className="mt-4">
                   <p className="text-slate-500 mt-1 text-sm">
                     {product.description}
@@ -178,7 +128,7 @@ const page = () => {
                     <div className="flex gap-3 flex-wrap">
                       {product.variants?.map((v) => (
                         <button 
-                        key={v.size} onClick={()=> setSelectedVariant(v.size)} className={`px-4 py-2 border rounded-md text-sm ${selectedVariant === v.size ? "bg-purple-600 text-white border-purple-600" : "bg-white text-slate-700 border-gray-300"}`}>
+                        key={v.size} onClick={()=> setSelectedVariant(v)} className={`px-4 py-2 border rounded-md text-sm ${selectedVariant === v ? "bg-purple-600 text-white border-purple-600" : "bg-white text-slate-700 border-gray-300"}`}>
                           {v.size}
                         </button>
                       ))}
@@ -188,9 +138,6 @@ const page = () => {
                 
 
                 <div>
-                  <h4 className="text-base mt-4 text-slate-500 font-semibold">
-                    Net Wt: 100G
-                  </h4>
                 </div>
               </div>
               <hr className="my-6 border-gray-300" />
