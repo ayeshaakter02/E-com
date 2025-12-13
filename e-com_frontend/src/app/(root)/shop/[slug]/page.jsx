@@ -79,11 +79,15 @@ const page = () => {
                   <div className="flex flex-row gap-4 shrink-0">
                     {product?.image?.map((imgurl, index) => (
                       <img
-                      key={index}
+                        key={index}
                         onClick={() => setActiveImage(imgurl)}
                         src={imgurl}
                         alt="Product1"
-                        className={`w-16 h-16 object-cover cursor-pointer  border ${activeImage === imgurl ? "border-purple-600" : "border-transparent"}`}
+                        className={`w-16 h-16 object-cover cursor-pointer  border ${
+                          activeImage === imgurl
+                            ? "border-purple-600"
+                            : "border-transparent"
+                        }`}
                       />
                     ))}
                   </div>
@@ -127,51 +131,58 @@ const page = () => {
                     </h4>
                     <div className="flex gap-3 flex-wrap">
                       {product.variants?.map((v) => (
-                        <button 
-                        key={v.size} onClick={()=> setSelectedVariant(v)} className={`px-4 py-2 border rounded-md text-sm ${selectedVariant === v ? "bg-purple-600 text-white border-purple-600" : "bg-white text-slate-700 border-gray-300"}`}>
+                        <button
+                          key={v.size}
+                          onClick={() => setSelectedVariant(v)}
+                          className={`px-4 py-2 border rounded-md text-sm ${
+                            selectedVariant === v
+                              ? "bg-purple-600 text-white border-purple-600"
+                              : "bg-white text-slate-700 border-gray-300"
+                          }`}
+                        >
                           {v.size}
                         </button>
                       ))}
                     </div>
                   </div>
                 )}
-                
 
-                <div>
-                </div>
+                <div></div>
               </div>
               <hr className="my-6 border-gray-300" />
               <div>
-{/* -------------------- QUANTITY -------------------- */}
-      <div className="mb-6">
-        <p className="text-sm font-medium text-gray-700 mb-1">Quantity:</p>
+                {/* -------------------- QUANTITY -------------------- */}
+                <div className="mb-6">
+                  <p className="text-sm font-medium text-gray-700 mb-1">
+                    Quantity:
+                  </p>
 
-        <div className="flex gap-4 items-center border border-gray-300 bg-white px-4 py-2.5 w-max">
-          <button
-            type="button"
-            onClick={() => qty > 1 && setQty(qty - 1)}
-            className="text-xl"
-          >
-            –
-          </button>
+                  <div className="flex gap-4 items-center border border-gray-300 bg-white px-4 py-2.5 w-max">
+                    <button
+                      type="button"
+                      onClick={() => qty > 1 && setQty(qty - 1)}
+                      className="text-xl"
+                    >
+                      –
+                    </button>
 
-          <span className="text-slate-900 text-sm font-semibold px-6 block">
-            {qty}
-          </span>
+                    <span className="text-slate-900 text-sm font-semibold px-6 block">
+                      {qty}
+                    </span>
 
-          <button
-            type="button"
-            onClick={() => setQty(qty + 1)}
-            className="text-xl"
-          >
-            +
-          </button>
-        </div>
-      </div>
+                    <button
+                      type="button"
+                      onClick={() => setQty(qty + 1)}
+                      className="text-xl"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
 
                 <div className="mt-4 flex flex-wrap gap-4">
-                  <button 
-                  onClick={handleAddToCart}
+                  <button
+                    onClick={handleAddToCart}
                     type="button"
                     className="px-4 py-3 w-[45%] cursor-pointer border border-gray-300 bg-white hover:bg-slate-50 text-slate-900 text-sm font-medium"
                   >

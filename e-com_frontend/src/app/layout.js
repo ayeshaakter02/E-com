@@ -8,7 +8,6 @@ import "./globals.css";
 import ReduxProvider from "@/components/redux/ReduxProvider";
 import VerifyUser from "@/components/verifyuser/VerifyUser";
 
-
 const roboto = Roboto({
   variable: "--font-roboto",
   subsets: ["latin"],

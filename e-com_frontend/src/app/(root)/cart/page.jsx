@@ -4,11 +4,12 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Container from "@/components/common/Container";
+import axios from "axios";
 
 const Page = () => {
   const [cartData, setCartData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  let [qty, setQty] = useState(1);
   const [subtotal, setSubtotal] = useState(0);
   const shipping = 50;
   const taxRate = 0.05;
@@ -47,10 +48,43 @@ const Page = () => {
   const tax = (subtotal * taxRate).toFixed(2);
   const total = subtotal + shipping + parseFloat(tax);
 
+  // handle Remove Button k real-time korar jonno Socket.io use korte hobe
+  let handleRemoveItem = (item) => {
+    axios
+      .delete(`${process.env.NEXT_PUBLIC_API}/cart/deletecart/${item?._id}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleIncreQuantity = (item) => {
+    let quantity = item.quantity + 1;
+    axios
+      .patch(
+        `${process.env.NEXT_PUBLIC_API}/cart/updatequantity/${user?._id}`,
+        {
+          quantity: quantity,
+          product: item.product._id,
+          variant: item.variant._id,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
-      <Container className="mx-auto mt-5">
-        <div className="mx-auto max-w-7xl md:p-4 bg-white">
-        <h1 className="text-xl font-bold text-slate-800 mb-5">Your Shopping Cart</h1>
+    <Container className="mx-auto mt-5">
+      <div className="mx-auto max-w-7xl md:p-4 bg-white">
+        <h1 className="text-xl font-bold text-slate-800 mb-5">
+          Your Shopping Cart
+        </h1>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* LEFT CART LIST */}
@@ -96,7 +130,10 @@ const Page = () => {
                   </div>
 
                   <div className="ml-auto flex flex-col">
-                    <button className="text-gray-500 hover:text-red-500 mt-3 text-xl text-right ml-5">
+                    <button
+                      onClick={() => handleRemoveItem(item)}
+                      className="text-gray-500 hover:text-red-500 mt-3 text-xl text-right ml-5"
+                    >
                       <RiDeleteBin6Line />
                     </button>
                     <div className="flex items-center gap-3 mt-auto">
@@ -112,8 +149,9 @@ const Page = () => {
                       </span>
 
                       <button
+                        onClick={() => handleIncreQuantity(item)}
                         type="button"
-                        className="flex items-center justify-center w-[18px] h-[18px] cursor-pointer bg-slate-800 text-white rounded-full"
+                        className="flex items-center justify-center w-[18px] h-[18px] cursor-pointer bg-slate-400 text-white rounded-full"
                       >
                         +
                       </button>
@@ -190,7 +228,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-      </Container>
+    </Container>
   );
 };
 

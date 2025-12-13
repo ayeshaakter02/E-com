@@ -1,20 +1,20 @@
-import Banner from '@/components/home/Banner'
-import Category from '@/components/home/Category'
-import Collection from '@/components/home/Collection'
-import Products from '@/components/home/Products'
-import SpringCollection from '@/components/home/SpringCollection'
-import React from 'react'
+import Banner from "@/components/home/Banner";
+import Category from "@/components/home/Category";
+import Collection from "@/components/home/Collection";
+import Products from "@/components/home/Products";
+import SpringCollection from "@/components/home/SpringCollection";
+import React from "react";
 
 const page = () => {
   return (
     <div>
-      <Banner/>
+      <Banner />
       {/* <Category/> */}
-      <Collection/>
-      <Products/>
-      <SpringCollection/>
+      <Collection />
+      <Products />
+      <SpringCollection />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;
