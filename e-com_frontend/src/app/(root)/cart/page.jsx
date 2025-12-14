@@ -5,17 +5,16 @@ import { useSelector } from "react-redux";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Container from "@/components/common/Container";
 import axios from "axios";
+import Link from "next/link";
 
 const Page = () => {
   const [cartData, setCartData] = useState([]);
   const [loading, setLoading] = useState(true);
-  let [qty, setQty] = useState(1);
   const [subtotal, setSubtotal] = useState(0);
-  const shipping = 50;
-  const taxRate = 0.05;
+  // const shipping = 50;
+  // const taxRate = 0.05;
 
   const user = useSelector((state) => state?.userInfo?.value);
-
   // Fetch Cart Data
   const fetchCart = async () => {
     try {
@@ -28,8 +27,11 @@ const Page = () => {
       if (data.success) {
         setCartData(data.data);
 
-        // Calculate subtotal
-        const sub = data.data.reduce((acc, item) => acc + item.totalprice, 0);
+        // Calculate subtotal (20min)
+        const sub = data.data.reduce(
+          (acc, item) => acc + item.totalprice * item.quantity,
+          0
+        );
         setSubtotal(sub);
       }
     } catch (error) {
@@ -43,10 +45,10 @@ const Page = () => {
     if (user?._id) {
       fetchCart();
     }
-  }, [user]);
+  }, [user, cartData]);
 
-  const tax = (subtotal * taxRate).toFixed(2);
-  const total = subtotal + shipping + parseFloat(tax);
+  // const tax = (subtotal * taxRate).toFixed(2);
+  // const total = subtotal + shipping;
 
   // handle Remove Button k real-time korar jonno Socket.io use korte hobe
   let handleRemoveItem = (item) => {
@@ -68,7 +70,7 @@ const Page = () => {
         {
           quantity: quantity,
           product: item.product._id,
-          variant: item.variant._id,
+          variant: item?.variant?._id,
         }
       )
       .then((res) => {
@@ -79,10 +81,31 @@ const Page = () => {
       });
   };
 
+  const handledecreQuantity = (item) => {
+    if (item.quantity > 1) {
+      let quantity = item.quantity - 1;
+      axios
+        .patch(
+          `${process.env.NEXT_PUBLIC_API}/cart/updatequantity/${user?._id}`,
+          {
+            quantity: quantity,
+            product: item.product._id,
+            variant: item?.variant?._id,
+          }
+        )
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
   return (
     <Container className="mx-auto mt-5">
       <div className="mx-auto max-w-7xl md:p-4 bg-white">
-        <h1 className="text-xl font-bold text-slate-800 mb-5">
+        <h1 className="text-3xl font-paragraph font-extrabold text-red-700 mb-5">
           Your Shopping Cart
         </h1>
 
@@ -116,7 +139,7 @@ const Page = () => {
                         <p className="text-[13px] font-medium text-slate-500 mt-2">
                           Size:{" "}
                           <span className="font-semibold text-slate-900">
-                            {item.variant?.size || "N/A"}
+                            {item.variant?.size || ""}
                           </span>
                         </p>
                       </div>
@@ -126,6 +149,9 @@ const Page = () => {
                           ৳{item.product.discountprice}
                         </h3>
                       </div>
+                      <span className="font-semibold text-base leading-[18px]">
+                        Total Price: ৳ {item.totalprice}
+                      </span>
                     </div>
                   </div>
 
@@ -138,6 +164,7 @@ const Page = () => {
                     </button>
                     <div className="flex items-center gap-3 mt-auto">
                       <button
+                        onClick={() => handledecreQuantity(item)}
                         type="button"
                         className="flex items-center justify-center w-[18px] h-[18px] cursor-pointer bg-slate-400 text-white rounded-full"
                       >
@@ -176,31 +203,40 @@ const Page = () => {
                     ৳{subtotal}
                   </span>
                 </li>
-
+                {/* 
                 <li className="flex flex-wrap gap-4 text-sm">
                   Shipping{" "}
                   <span className="ml-auto font-semibold text-slate-900">
                     ৳{shipping}
                   </span>
-                </li>
-
+                </li> */}
+                {/* 
                 <li className="flex flex-wrap gap-4 text-sm">
                   Tax{" "}
                   <span className="ml-auto font-semibold text-slate-900">
                     ৳{tax}
                   </span>
-                </li>
+                </li> */}
 
                 <hr className="border-slate-300" />
 
                 <li className="flex flex-wrap gap-4 text-sm font-semibold text-slate-900">
-                  Total <span className="ml-auto">৳{total}</span>
+                  Total <span className="ml-auto">৳{subtotal}</span>
                 </li>
               </ul>
 
-              <button className="w-full px-4 py-3 mt-6 text-sm font-semibold tracking-wide text-white bg-cyan-600 rounded-md hover:bg-cyan-700">
+              <Link
+                href={"/checkout"}
+                className="block text-center w-full px-4 py-3 mt-6 text-sm font-semibold tracking-wide text-white bg-red-700 rounded-md hover:bg-red-600"
+              >
                 Checkout
-              </button>
+              </Link>
+              <Link
+                href={"/shop"}
+                className="block text-center w-full px-4 py-3 mt-6 text-sm font-semibold tracking-wide text-white bg-red-700 rounded-md hover:bg-red-600"
+              >
+                Continue Shopping
+              </Link>
             </div>
 
             <div className="bg-white rounded-lg shadow-md p-6 border border-gray-300">
