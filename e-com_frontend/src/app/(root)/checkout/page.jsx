@@ -1,20 +1,80 @@
 "use client";
 
 import Container from "@/components/common/Container";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import axios from "axios";
 
 const page = () => {
+  const [cartData, setCartData] = useState([]);
+  const [city, setCity] = useState([]);
+  const [subtotal, setSubtotal] = useState(0);
+  // const shipping = 50;
+  // const taxRate = 0.05;
+
+  const user = useSelector((state) => state?.userInfo?.value);
+  // Fetch Cart Data
+  const fetchCart = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API}/cart/singleusercart/${user?._id}`
+      );
+      const data = await res.json();
+
+      if (data.success) {
+        setCartData(data.data);
+
+        // Calculate subtotal (20min)
+        const sub = data.data.reduce(
+          (acc, item) => acc + item.totalprice * item.quantity,
+          0
+        );
+        setSubtotal(sub);
+      }
+    } catch (error) {
+      console.error("Cart Fetch Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (user?._id) {
+      fetchCart();
+    }
+  }, [user, cartData]);
+
+  let handleRemoveItem = (item) => {
+    axios
+      .delete(`${process.env.NEXT_PUBLIC_API}/cart/deletecart/${item?._id}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // BD api 
+  useEffect(() => {
+    axios
+      .get("https://bdapis.com/api/v1.2/districts")
+      .then((res) => {
+        setCity(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <Container>
-      <div className="bg-white sm:px-8 px-4 py-6">
+      <div className="bg-white sm:px-15 px-4 py-6">
         <div className="max-md:max-w-xl mx-auto">
           <div className="flex items-start mb-16">
             <div className="w-full">
               <div className="flex items-center w-full">
-                <div className="w-8 h-8 shrink-0 -mx-1 bg-blue-600 p-1.5 flex items-center justify-center rounded-full">
+                <div className="w-8 h-8 shrink-0 -mx-1 bg-red-600 p-1.5 flex items-center justify-center rounded-full">
                   <span className="text-sm text-white font-semibold">1</span>
                 </div>
-                <div className="w-full h-[3px] mx-4 rounded-lg bg-blue-600" />
+                <div className="w-full h-[3px] mx-4 rounded-lg bg-red-600" />
               </div>
               <div className="mt-2 mr-4">
                 <h6 className="text-sm font-semibold text-slate-900">Cart</h6>
@@ -22,7 +82,7 @@ const page = () => {
             </div>
             <div className="w-full">
               <div className="flex items-center w-full">
-                <div className="w-8 h-8 shrink-0 -mx-1 bg-blue-600 p-1.5 flex items-center justify-center rounded-full">
+                <div className="w-8 h-8 shrink-0 -mx-1 bg-red-600 p-1.5 flex items-center justify-center rounded-full">
                   <span className="text-sm text-white font-semibold">2</span>
                 </div>
                 <div className="w-full h-[3px] mx-4 rounded-lg bg-slate-300" />
@@ -59,7 +119,7 @@ const page = () => {
                       <input
                         type="text"
                         placeholder="Enter First Name"
-                        className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-blue-600"
+                        className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600"
                       />
                     </div>
                     <div>
@@ -69,7 +129,7 @@ const page = () => {
                       <input
                         type="text"
                         placeholder="Enter Last Name"
-                        className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-blue-600"
+                        className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600"
                       />
                     </div>
                     <div>
@@ -79,7 +139,7 @@ const page = () => {
                       <input
                         type="email"
                         placeholder="Enter Email"
-                        className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-blue-600"
+                        className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600"
                       />
                     </div>
                     <div>
@@ -89,7 +149,7 @@ const page = () => {
                       <input
                         type="number"
                         placeholder="Enter Phone No."
-                        className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-blue-600"
+                        className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600"
                       />
                     </div>
                     <div>
@@ -99,18 +159,20 @@ const page = () => {
                       <input
                         type="text"
                         placeholder="Enter Address Line"
-                        className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-blue-600"
+                        className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600"
                       />
                     </div>
                     <div>
                       <label className="text-sm text-slate-900 font-medium block mb-2">
                         City
                       </label>
-                      <input
-                        type="text"
-                        placeholder="Enter City"
-                        className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-blue-600"
-                      />
+                      <select className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600">
+                        {city.map((item) => (
+                          <option key={item.district} value={item.district}>
+                            {item.district}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                     <div>
                       <label className="text-sm text-slate-900 font-medium block mb-2">
@@ -119,7 +181,7 @@ const page = () => {
                       <input
                         type="text"
                         placeholder="Enter State"
-                        className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-blue-600"
+                        className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600"
                       />
                     </div>
                     <div>
@@ -129,7 +191,7 @@ const page = () => {
                       <input
                         type="text"
                         placeholder="Enter Zip Code"
-                        className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-blue-600"
+                        className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600"
                       />
                     </div>
                   </div>
@@ -210,11 +272,11 @@ const page = () => {
                     <input
                       type="email"
                       placeholder="Promo code"
-                      className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-blue-600"
+                      className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600"
                     />
                     <button
                       type="button"
-                      className="flex items-center justify-center font-medium tracking-wide bg-blue-600 hover:bg-blue-700 px-4 py-2.5 rounded-md text-sm text-white cursor-pointer"
+                      className="flex items-center justify-center font-medium tracking-wide bg-red-600 hover:bg-red-700 px-4 py-2.5 rounded-md text-sm text-white cursor-pointer"
                     >
                       Apply
                     </button>
@@ -229,226 +291,66 @@ const page = () => {
               <div className="relative bg-white border border-gray-300 rounded-md">
                 <div className="px-6 py-8 md:overflow-auto">
                   <div className="space-y-4">
-                    <div className="flex gap-4 max-sm:flex-col">
-                      <div className="w-24 h-24 shrink-0 bg-purple-50 p-2 rounded-md">
-                        <img
-                          src="https://readymadeui.com/images/product14.webp"
-                          className="w-full h-full object-contain"
-                        />
-                      </div>
-                      <div className="w-full flex justify-between gap-4">
-                        <div>
-                          <h3 className="text-sm font-medium text-slate-900">
-                            Velvet Sneaker
-                          </h3>
-                          <p className="text-sm font-medium text-slate-500 mt-2">
-                            Black/White
-                          </p>
-                          <h6 className="text-[15px] text-slate-900 font-semibold mt-4">
-                            $18.00
-                          </h6>
-                        </div>
-                        <div className="flex flex-col justify-between items-end gap-4">
-                          <div>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="w-4 fill-red-500 inline cursor-pointer"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z"
-                                data-original="#000000"
-                              />
-                              <path
-                                d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z"
-                                data-original="#000000"
-                              />
-                            </svg>
+                    {cartData.map((item) => (
+                      <div key={item._id}>
+                        <div className="flex gap-4 max-sm:flex-col">
+                          <div className="w-24 h-24 shrink-0 bg-purple-50 p-2 rounded-md">
+                            <img
+                              src={item.product.image[0]}
+                              className="w-full h-full object-contain"
+                            />
                           </div>
-                          <div className="flex items-center px-2.5 py-1.5 border border-gray-400 text-slate-900 text-xs font-medium outline-0 bg-transparent rounded-md">
-                            <button
-                              type="button"
-                              className="cursor-pointer border-0 outline-0"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-2.5 fill-current"
-                                viewBox="0 0 124 124"
-                              >
-                                <path
-                                  d="M112 50H12C5.4 50 0 55.4 0 62s5.4 12 12 12h100c6.6 0 12-5.4 12-12s-5.4-12-12-12z"
-                                  data-original="#000000"
-                                />
-                              </svg>
-                            </button>
-                            <span className="mx-3">1</span>
-                            <button
-                              type="button"
-                              className="cursor-pointer border-0 outline-0"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-2.5 fill-current"
-                                viewBox="0 0 42 42"
-                              >
-                                <path
-                                  d="M37.059 16H26V4.941C26 2.224 23.718 0 21 0s-5 2.224-5 4.941V16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5H16v11.059C16 39.776 18.282 42 21 42s5-2.224 5-4.941V26h11.059C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z"
-                                  data-original="#000000"
-                                />
-                              </svg>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <hr className="border-gray-300" />
-                    <div className="flex gap-4 max-sm:flex-col">
-                      <div className="w-24 h-24 shrink-0 bg-purple-50 p-2 rounded-md">
-                        <img
-                          src="https://readymadeui.com/images/watch5.webp"
-                          className="w-full h-full object-contain"
-                        />
-                      </div>
-                      <div className="w-full flex justify-between gap-4">
-                        <div>
-                          <h3 className="text-sm font-medium text-slate-900">
-                            Smart Watch Timex
-                          </h3>
-                          <p className="text-sm font-medium text-slate-500 mt-2">
-                            Gray
-                          </p>
-                          <h6 className="text-[15px] text-slate-900 font-semibold mt-4">
-                            $90.00
-                          </h6>
-                        </div>
-                        <div className="flex flex-col justify-between items-end gap-4">
-                          <div>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="w-4 fill-red-500 inline cursor-pointer"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z"
-                                data-original="#000000"
-                              />
-                              <path
-                                d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z"
-                                data-original="#000000"
-                              />
-                            </svg>
-                          </div>
-                          <div className="flex items-center px-2.5 py-1.5 border border-gray-400 text-slate-900 text-xs font-medium outline-0 bg-transparent rounded-md">
-                            <button
-                              type="button"
-                              className="cursor-pointer border-0 outline-0"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-2.5 fill-current"
-                                viewBox="0 0 124 124"
-                              >
-                                <path
-                                  d="M112 50H12C5.4 50 0 55.4 0 62s5.4 12 12 12h100c6.6 0 12-5.4 12-12s-5.4-12-12-12z"
-                                  data-original="#000000"
-                                />
-                              </svg>
-                            </button>
-                            <span className="mx-3">1</span>
-                            <button
-                              type="button"
-                              className="cursor-pointer border-0 outline-0"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-2.5 fill-current"
-                                viewBox="0 0 42 42"
-                              >
-                                <path
-                                  d="M37.059 16H26V4.941C26 2.224 23.718 0 21 0s-5 2.224-5 4.941V16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5H16v11.059C16 39.776 18.282 42 21 42s5-2.224 5-4.941V26h11.059C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z"
-                                  data-original="#000000"
-                                />
-                              </svg>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <hr className="border-gray-300" />
-                    <div className="flex gap-4 max-sm:flex-col">
-                      <div className="w-24 h-24 shrink-0 bg-purple-50 p-2 rounded-md">
-                        <img
-                          src="https://readymadeui.com/images/dark-green-tshirt-2.webp"
-                          className="w-full h-full object-contain"
-                        />
-                      </div>
-                      <div className="w-full flex justify-between gap-4">
-                        <div>
-                          <h3 className="text-sm font-medium text-slate-900">
-                            T-shirt
-                          </h3>
-                          <p className="text-sm font-medium text-slate-500 mt-2">
-                            Dark Green
-                          </p>
-                          <h6 className="text-[15px] text-slate-900 font-semibold mt-4">
-                            $20.00
-                          </h6>
-                        </div>
-                        <div className="flex flex-col justify-between items-end gap-4">
-                          <div>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="w-4 fill-red-500 inline cursor-pointer"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z"
-                                data-original="#000000"
-                              />
-                              <path
-                                d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z"
-                                data-original="#000000"
-                              />
-                            </svg>
-                          </div>
-                          <div>
-                            <div className="flex items-center px-2.5 py-1.5 border border-gray-400 text-slate-900 text-xs font-medium outline-0 bg-transparent rounded-md">
+                          <div className="w-full flex justify-between gap-4">
+                            <div>
+                              <h3 className="text-sm font-medium text-slate-900">
+                                {item.product.title}
+                              </h3>
+                              <p className="text-sm font-medium text-slate-500 mt-2">
+                                <span className="font-semibold text-slate-900">
+                                  {item.variant?.size || ""}
+                                </span>
+                              </p>
+                              <h6 className="text-[15px] text-slate-900 font-semibold mt-4">
+                                ৳{item.product.discountprice}
+                              </h6>
+                              <span className="font-semibold text-base leading-[18px]">
+                                Total Price: ৳ {item.totalprice}
+                              </span>
+                            </div>
+                            <div className="flex flex-col justify-between items-end gap-4">
                               <button
-                                type="button"
-                                className="cursor-pointer border-0 outline-0"
+                                onClick={() => handleRemoveItem(item)}
+                                className="text-gray-500 hover:text-red-500 mt-3 text-xl text-right ml-5"
                               >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="w-2.5 fill-current"
-                                  viewBox="0 0 124 124"
-                                >
-                                  <path
-                                    d="M112 50H12C5.4 50 0 55.4 0 62s5.4 12 12 12h100c6.6 0 12-5.4 12-12s-5.4-12-12-12z"
-                                    data-original="#000000"
-                                  />
-                                </svg>
+                                <RiDeleteBin6Line />
                               </button>
-                              <span className="mx-3">1</span>
-                              <button
-                                type="button"
-                                className="cursor-pointer border-0 outline-0"
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="w-2.5 fill-current"
-                                  viewBox="0 0 42 42"
+                              <div className="flex items-center gap-3 mt-auto">
+                                {/* <button
+                                  onClick={() => handledecreQuantity(item)}
+                                  type="button"
+                                  className="flex items-center justify-center w-[18px] h-[18px] cursor-pointer bg-slate-400 text-white rounded-full"
                                 >
-                                  <path
-                                    d="M37.059 16H26V4.941C26 2.224 23.718 0 21 0s-5 2.224-5 4.941V16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5H16v11.059C16 39.776 18.282 42 21 42s5-2.224 5-4.941V26h11.059C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z"
-                                    data-original="#000000"
-                                  />
-                                </svg>
-                              </button>
+                                  -
+                                </button> */}
+
+                                <span className="font-semibold text-base leading-[18px]">
+                                  Qty: {item.quantity}
+                                </span>
+
+                                {/* <button
+                                  onClick={() => handleIncreQuantity(item)}
+                                  type="button"
+                                  className="flex items-center justify-center w-[18px] h-[18px] cursor-pointer bg-slate-400 text-white rounded-full"
+                                >
+                                  +
+                                </button> */}
+                              </div>
                             </div>
                           </div>
                         </div>
+                        <hr className="border-gray-300 mt-5" />
                       </div>
-                    </div>
+                    ))}
                   </div>
                   <hr className="border-gray-300 my-6" />
                   <div>
@@ -457,7 +359,7 @@ const page = () => {
                         <li className="flex flex-wrap gap-4 text-sm">
                           Subtotal{" "}
                           <span className="ml-auto font-semibold text-slate-900">
-                            $72.00
+                            ৳{subtotal}
                           </span>
                         </li>
                         <li className="flex flex-wrap gap-4 text-sm">
@@ -486,7 +388,7 @@ const page = () => {
                       <div className="space-y-4 mt-8">
                         <button
                           type="button"
-                          className="rounded-md px-4 py-2.5 w-full text-sm font-medium tracking-wide bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
+                          className="rounded-md px-4 py-2.5 w-full text-sm font-medium tracking-wide bg-red-600 hover:bg-red-700 text-white cursor-pointer"
                         >
                           Complete Purchase
                         </button>

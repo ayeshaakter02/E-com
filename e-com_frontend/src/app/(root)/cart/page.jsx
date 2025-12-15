@@ -137,7 +137,6 @@ const Page = () => {
                         </h3>
 
                         <p className="text-[13px] font-medium text-slate-500 mt-2">
-                          Size:{" "}
                           <span className="font-semibold text-slate-900">
                             {item.variant?.size || ""}
                           </span>

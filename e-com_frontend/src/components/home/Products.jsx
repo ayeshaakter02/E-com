@@ -9,15 +9,15 @@ const Products = async () => {
   return (
     <Container>
       <div className="xl:w-[1427px] mx-auto">
-        <h2 className="w-[407px] mx-auto text-[35px] font-normal">
-          OUR TRENDY <span className="font-bold"> PRODUCTS</span>
+        <h2 className="font-paragraph text-red-600 w-150 mx-auto text-center text-5xl font-medium">
+          OUR TRENDY <span className="font-extrabold"> PRODUCTS</span>
         </h2>
         <div className="mt-[31px] w-[481px] mx-auto">
           <ul className="flex justify-between text-[16px] font-medium mb-[41px]">
-            <li>ALL</li>
-            <li>NEWARRIVALS </li>
-            <li>BEST SELLER</li>
-            <li>TOP RATING</li>
+            <li className="hover:text-red-600">ALL</li>
+            <li className="hover:text-red-600">NEWARRIVALS </li>
+            <li className="hover:text-red-600">BEST SELLER</li>
+            <li className="hover:text-red-600">TOP RATING</li>
           </ul>
         </div>
         <div className=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ">
