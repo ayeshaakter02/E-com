@@ -226,7 +226,7 @@ const Page = () => {
               </ul>
 
               <Link
-                href={"/checkout"}
+                href="/checkout"
                 className="block text-center w-full px-4 py-3 mt-6 text-sm font-semibold tracking-wide text-white bg-red-700 rounded-md hover:bg-red-600"
               >
                 Checkout
@@ -239,7 +239,7 @@ const Page = () => {
               </Link>
             </div>
 
-            <div className="bg-white rounded-lg shadow-md p-6 border border-gray-300">
+            {/* <div className="bg-white rounded-lg shadow-md p-6 border border-gray-300">
               <h4 className="flex items-center gap-2 font-semibold text-slate-900 mb-4">
                 Discount Code
               </h4>
@@ -260,7 +260,7 @@ const Page = () => {
                   Apply
                 </button>
               </form>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

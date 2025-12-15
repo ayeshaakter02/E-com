@@ -22,7 +22,7 @@ const Products = async () => {
         </div>
         <div className=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ">
           {data.map((item) => (
-            <div className="mt-12 shadow-sm bg-white p-1.5 rounded-md overflow-hidden cursor-pointer relative hover:shadow-md">
+            <div key={item._id} className="mt-12 shadow-sm bg-white p-1.5 rounded-md overflow-hidden cursor-pointer relative hover:shadow-md">
               <div className="aspect-square">
                 <img
                 className="mb-3.5 w-full h-full object-cover object-top"
