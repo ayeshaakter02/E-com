@@ -10,9 +10,12 @@ const page = () => {
   const [cartData, setCartData] = useState([]);
   const [city, setCity] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
+  const [deliveryCharge, setDeliveryCharge] = useState(null);
   // const shipping = 50;
-  // const taxRate = 0.05;
-
+  const taxRate = 0.005;
+  const tax = subtotal >= 5000 ? Number((subtotal * taxRate).toFixed(2)) : 0;
+  const total = subtotal + (deliveryCharge || 0) + tax;
+  
   const user = useSelector((state) => state?.userInfo?.value);
   // Fetch Cart Data
   const fetchCart = async () => {
@@ -54,7 +57,7 @@ const page = () => {
       });
   };
 
-  // BD api 
+  // BD api
   useEffect(() => {
     axios
       .get("https://bdapis.com/api/v1.2/districts")
@@ -63,6 +66,14 @@ const page = () => {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  const handleSelectCity = (e) => {
+    if (e.target.value == "Dhaka") {
+      setDeliveryCharge(60);
+    } else {
+      setDeliveryCharge(120);
+    }
+  };
 
   return (
     <Container>
@@ -114,21 +125,15 @@ const page = () => {
                   <div className="grid lg:grid-cols-2 gap-y-6 gap-x-4">
                     <div>
                       <label className="text-sm text-slate-900 font-medium block mb-2">
-                        First Name
+                        Name
                       </label>
                       <input
                         type="text"
-                        placeholder="Enter First Name"
-                        className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm text-slate-900 font-medium block mb-2">
-                        Last Name
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="Enter Last Name"
+                        placeholder="Enter Name"
+                        value={user?.name || ""}
+                        onChange={(e) =>
+                          setUser({ ...user, name: e.target.value })
+                        }
                         className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600"
                       />
                     </div>
@@ -139,6 +144,10 @@ const page = () => {
                       <input
                         type="email"
                         placeholder="Enter Email"
+                        value={user?.email || ""}
+                        onChange={(e) =>
+                          setUser({ ...user, email: e.target.value })
+                        }
                         className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600"
                       />
                     </div>
@@ -166,7 +175,10 @@ const page = () => {
                       <label className="text-sm text-slate-900 font-medium block mb-2">
                         City
                       </label>
-                      <select className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600">
+                      <select
+                        onChange={handleSelectCity}
+                        className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600"
+                      >
                         {city.map((item) => (
                           <option key={item.district} value={item.district}>
                             {item.district}
@@ -325,25 +337,9 @@ const page = () => {
                                 <RiDeleteBin6Line />
                               </button>
                               <div className="flex items-center gap-3 mt-auto">
-                                {/* <button
-                                  onClick={() => handledecreQuantity(item)}
-                                  type="button"
-                                  className="flex items-center justify-center w-[18px] h-[18px] cursor-pointer bg-slate-400 text-white rounded-full"
-                                >
-                                  -
-                                </button> */}
-
                                 <span className="font-semibold text-base leading-[18px]">
                                   Qty: {item.quantity}
                                 </span>
-
-                                {/* <button
-                                  onClick={() => handleIncreQuantity(item)}
-                                  type="button"
-                                  className="flex items-center justify-center w-[18px] h-[18px] cursor-pointer bg-slate-400 text-white rounded-full"
-                                >
-                                  +
-                                </button> */}
                               </div>
                             </div>
                           </div>
@@ -362,27 +358,26 @@ const page = () => {
                             ৳{subtotal}
                           </span>
                         </li>
+
+                        {deliveryCharge && (
+                          <li className="flex flex-wrap gap-4 text-sm">
+                            Shipping{" "}
+                            <span className="ml-auto font-semibold text-slate-900">
+                              {deliveryCharge}
+                            </span>
+                          </li>
+                        )}
+
                         <li className="flex flex-wrap gap-4 text-sm">
-                          Discount{" "}
+                          Tax (0.5%)
                           <span className="ml-auto font-semibold text-slate-900">
-                            $0.00
+                            ৳{tax}
                           </span>
                         </li>
-                        <li className="flex flex-wrap gap-4 text-sm">
-                          Shipping{" "}
-                          <span className="ml-auto font-semibold text-slate-900">
-                            $6.00
-                          </span>
-                        </li>
-                        <li className="flex flex-wrap gap-4 text-sm">
-                          Tax{" "}
-                          <span className="ml-auto font-semibold text-slate-900">
-                            $5.00
-                          </span>
-                        </li>
+
                         <hr className="border-slate-300" />
                         <li className="flex flex-wrap gap-4 text-[15px] font-semibold text-slate-900">
-                          Total <span className="ml-auto">$83.00</span>
+                          Total <span className="ml-auto">{total}</span>
                         </li>
                       </ul>
                       <div className="space-y-4 mt-8">

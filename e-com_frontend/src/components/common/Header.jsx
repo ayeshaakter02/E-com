@@ -1,17 +1,39 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { ShoppingCart, User, Search, Menu, X } from "lucide-react";
 import Container from "./Container";
 import { useSelector } from "react-redux";
 
 export default function Header() {
+  const [cartData, setCartData] = useState([]);
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Get user data from Redux store
   const user = useSelector((state) => state?.userInfo?.value);
-console.log(user)
+  const fetchCart = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API}/cart/singleusercart/${user?._id}`
+      );
+      const data = await res.json();
+
+      if (data.success) {
+        setCartData(data.data);
+      }
+    } catch (error) {
+      console.error("Cart Fetch Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (user?._id) {
+      fetchCart();
+    }
+  }, [user, cartData]);
+
+  const cartCount = cartData.length;
 
   return (
     <Container>
@@ -25,19 +47,34 @@ console.log(user)
           {/* Desktop Navigation */}
           <div className="xl:flex gap-15">
             <nav className="hidden md:flex items-center space-x-6">
-              <Link href="/" className="font-paragraph text-xl hover:text-red-600 font-medium">
+              <Link
+                href="/"
+                className="font-paragraph text-xl hover:text-red-600 font-medium"
+              >
                 Home
               </Link>
-              <Link href="/new-arrivals" className="font-paragraph text-xl hover:text-red-600 font-medium">
+              <Link
+                href="/new-arrivals"
+                className="font-paragraph text-xl hover:text-red-600 font-medium"
+              >
                 New Arrivals
               </Link>
-              <Link href="/shop" className="font-paragraph text-xl hover:text-red-600 font-medium">
+              <Link
+                href="/shop"
+                className="font-paragraph text-xl hover:text-red-600 font-medium"
+              >
                 Shop
               </Link>
-              <Link href="/contact" className="font-paragraph text-xl hover:text-red-600 font-medium">
+              <Link
+                href="/contact"
+                className="font-paragraph text-xl hover:text-red-600 font-medium"
+              >
                 Contact
               </Link>
-              <Link href="/aboutus" className="font-paragraph text-xl hover:text-red-600 font-medium">
+              <Link
+                href="/aboutus"
+                className="font-paragraph text-xl hover:text-red-600 font-medium"
+              >
                 About Us
               </Link>
             </nav>
@@ -65,10 +102,13 @@ console.log(user)
               </Link>
             )}
 
-            <Link href="/cart" className="relative text-gray-700 hover:text-red-600">
+            <Link
+              href="/cart"
+              className="relative text-gray-700 hover:text-red-600"
+            >
               <ShoppingCart size={22} />
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
-                0
+                {cartCount}
               </span>
             </Link>
 
@@ -86,19 +126,34 @@ console.log(user)
         {menuOpen && (
           <div className="md:hidden bg-white border-t border-gray-100 px-4 pb-4">
             <nav className="flex flex-col space-y-2 mt-3">
-              <Link href="/" className="font-paragraph font-semibold hover:text-red-600 text-[18px]">
+              <Link
+                href="/"
+                className="font-paragraph font-semibold hover:text-red-600 text-[18px]"
+              >
                 Home
               </Link>
-              <Link href="/new-arrivals" className="font-paragraph font-semibold hover:text-red-600 text-[18px]">
+              <Link
+                href="/new-arrivals"
+                className="font-paragraph font-semibold hover:text-red-600 text-[18px]"
+              >
                 New Arrivals
               </Link>
-              <Link href="/shop" className="font-paragraph font-semibold hover:text-red-600 text-[18px]">
+              <Link
+                href="/shop"
+                className="font-paragraph font-semibold hover:text-red-600 text-[18px]"
+              >
                 Shop
               </Link>
-              <Link href="/contact" className="font-paragraph font-semibold hover:text-red-600 text-[18px]">
+              <Link
+                href="/contact"
+                className="font-paragraph font-semibold hover:text-red-600 text-[18px]"
+              >
                 Contact
               </Link>
-              <Link href="/aboutus" className="font-paragraph font-semibold hover:text-red-600 text-[18px]">
+              <Link
+                href="/aboutus"
+                className="font-paragraph font-semibold hover:text-red-600 text-[18px]"
+              >
                 About Us
               </Link>
             </nav>
@@ -115,9 +170,7 @@ console.log(user)
 
             {/* Mobile User Greeting */}
             {user && (
-              <p className="mt-3 text-gray-700 font-medium">
-                Hi, {user.name}
-              </p>
+              <p className="mt-3 text-gray-700 font-medium">Hi, {user.name}</p>
             )}
           </div>
         )}
