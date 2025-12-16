@@ -7,74 +7,99 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import axios from "axios";
 
 const page = () => {
+  const user = useSelector((state) => state?.userInfo?.value);
+
   const [cartData, setCartData] = useState([]);
-  const [city, setCity] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [selectedCity, setSelectedCity] = useState("");
+
   const [subtotal, setSubtotal] = useState(0);
-  const [deliveryCharge, setDeliveryCharge] = useState(null);
-  // const shipping = 50;
+  const [deliveryCharge, setDeliveryCharge] = useState(0);
+
+  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("cod");
+
   const taxRate = 0.005;
   const tax = subtotal >= 5000 ? Number((subtotal * taxRate).toFixed(2)) : 0;
-  const total = subtotal + (deliveryCharge || 0) + tax;
-  
-  const user = useSelector((state) => state?.userInfo?.value);
-  // Fetch Cart Data
+  const total = subtotal + deliveryCharge + tax;
+
+  // ================= CART =================
   const fetchCart = async () => {
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API}/cart/singleusercart/${user?._id}`
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API}/cart/singleusercart/${user?._id}`
+    );
+    const data = await res.json();
+
+    if (data.success) {
+      setCartData(data.data);
+      const sub = data.data.reduce(
+        (acc, item) => acc + item.totalprice * item.quantity,
+        0
       );
-      const data = await res.json();
-
-      if (data.success) {
-        setCartData(data.data);
-
-        // Calculate subtotal (20min)
-        const sub = data.data.reduce(
-          (acc, item) => acc + item.totalprice * item.quantity,
-          0
-        );
-        setSubtotal(sub);
-      }
-    } catch (error) {
-      console.error("Cart Fetch Error:", error);
+      setSubtotal(sub);
     }
   };
 
   useEffect(() => {
-    if (user?._id) {
-      fetchCart();
-    }
+    if (user?._id) fetchCart();
   }, [user, cartData]);
 
-  let handleRemoveItem = (item) => {
-    axios
-      .delete(`${process.env.NEXT_PUBLIC_API}/cart/deletecart/${item?._id}`)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleRemoveItem = async (item) => {
+    await axios.delete(
+      `${process.env.NEXT_PUBLIC_API}/cart/deletecart/${item._id}`
+    );
+    fetchCart();
   };
 
-  // BD api
+  // ================= DISTRICT =================
   useEffect(() => {
     axios
       .get("https://bdapis.com/api/v1.2/districts")
-      .then((res) => {
-        setCity(res.data.data);
-      })
-      .catch((err) => console.log(err));
+      .then((res) => setDistricts(res.data.data));
   }, []);
 
-  const handleSelectCity = (e) => {
-    if (e.target.value == "Dhaka") {
-      setDeliveryCharge(60);
+const handleSelectCity = (e) => {
+  const city = e.target.value.trim();
+  setSelectedCity(city);
+
+  if (city.toLowerCase() === "dhaka") {
+    setDeliveryCharge(60);
+  } else {
+    setDeliveryCharge(120);
+  }
+};
+
+
+  // ================= PLACE ORDER =================
+  const placeOrder = async () => {
+    if (!phone || !address || !selectedCity)
+      return alert("Please fill all required fields");
+
+    const payload = {
+      user: user?._id,
+      paymentmethod: paymentMethod,
+      city: selectedCity,
+      address,
+      phone,
+      subtotal,
+      deliveryCharge,
+      tax,
+      total,
+    };
+
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API}/order/createorder`,
+      payload
+    );
+
+    // SSL payment
+    if (paymentMethod === "online") {
+      window.location.href = res.data.GatewayPageURL;
     } else {
-      setDeliveryCharge(120);
+      alert("Order placed successfully (Cash on Delivery)");
     }
   };
-
   return (
     <Container>
       <div className="bg-white sm:px-15 px-4 py-6">
@@ -153,12 +178,14 @@ const page = () => {
                     </div>
                     <div>
                       <label className="text-sm text-slate-900 font-medium block mb-2">
-                        Phone No.
+                        Phone
                       </label>
                       <input
                         type="number"
                         placeholder="Enter Phone No."
                         className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600"
+                        value={phone}
+              onChange={(e) => setPhone(e.target.value)}
                       />
                     </div>
                     <div>
@@ -169,6 +196,8 @@ const page = () => {
                         type="text"
                         placeholder="Enter Address Line"
                         className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600"
+                                      value={address}
+              onChange={(e) => setAddress(e.target.value)}
                       />
                     </div>
                     <div>
@@ -176,15 +205,18 @@ const page = () => {
                         City
                       </label>
                       <select
-                        onChange={handleSelectCity}
-                        className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600"
-                      >
-                        {city.map((item) => (
-                          <option key={item.district} value={item.district}>
-                            {item.district}
-                          </option>
-                        ))}
-                      </select>
+  value={selectedCity}
+  onChange={handleSelectCity}
+  className="px-4 py-2.5 bg-white border border-gray-400 w-full rounded-md"
+>
+  <option value="">Select City</option>
+  {districts.map((item) => (
+    <option key={item.district} value={item.district}>
+      {item.district}
+    </option>
+  ))}
+</select>
+
                     </div>
                     <div>
                       <label className="text-sm text-slate-900 font-medium block mb-2">
@@ -213,68 +245,48 @@ const page = () => {
                     Payment
                   </h2>
                   <div className="grid gap-4 lg:grid-cols-2">
-                    <div className="bg-gray-100 p-4 rounded-md border border-gray-300 max-w-sm">
-                      <div>
-                        <div className="flex items-center">
-                          <input
-                            type="radio"
-                            name="method"
-                            className="w-5 h-5 cursor-pointer"
-                            id="card"
-                            defaultChecked=""
-                          />
-                          <label
-                            htmlFor="card"
-                            className="ml-4 flex gap-2 cursor-pointer"
-                          >
-                            <img
-                              src="https://readymadeui.com/images/visa.webp"
-                              className="w-12"
-                              alt="card1"
-                            />
-                            <img
-                              src="https://readymadeui.com/images/american-express.webp"
-                              className="w-12"
-                              alt="card2"
-                            />
-                            <img
-                              src="https://readymadeui.com/images/master.webp"
-                              className="w-12"
-                              alt="card3"
-                            />
-                          </label>
-                        </div>
-                      </div>
-                      <p className="mt-4 text-sm text-slate-500 font-medium">
-                        Pay with your debit or credit card
-                      </p>
-                    </div>
-                    <div className="bg-gray-100 p-4 rounded-md border border-gray-300 max-w-sm">
-                      <div>
-                        <div className="flex items-center">
-                          <input
-                            type="radio"
-                            name="method"
-                            className="w-5 h-5 cursor-pointer"
-                            id="paypal"
-                          />
-                          <label
-                            htmlFor="paypal"
-                            className="ml-4 flex gap-2 cursor-pointer"
-                          >
-                            <img
-                              src="https://readymadeui.com/images/paypal.webp"
-                              className="w-20"
-                              alt="paypalCard"
-                            />
-                          </label>
-                        </div>
-                      </div>
-                      <p className="mt-4 text-sm text-slate-500 font-medium">
-                        Pay with your paypal account
-                      </p>
-                    </div>
-                  </div>
+  {/* ONLINE PAYMENT */}
+  <div className="bg-gray-100 p-4 rounded-md border border-gray-300 max-w-sm">
+    <div className="flex items-center">
+      <input
+        type="radio"
+        name="method"
+        value="online"
+        checked={paymentMethod === "online"}
+        onChange={(e) => setPaymentMethod(e.target.value)}
+        className="w-5 h-5 cursor-pointer"
+      />
+      <label className="ml-4 flex gap-2 cursor-pointer">
+        <img src="../images/bKash.webp" className="w-25 h-10 mt-3" />
+        <img src="../images/nagad.jpg" className="w-25" />
+      </label>
+    </div>
+    <p className="mt-4 text-sm text-slate-500 font-medium">
+      Pay with your bKash or Nagad
+    </p>
+  </div>
+
+  {/* COD */}
+  <div className="bg-gray-100 p-4 rounded-md border border-gray-300 max-w-sm">
+    <div className="flex items-center">
+      <input
+        type="radio"
+        name="method"
+        value="cod"
+        checked={paymentMethod === "cod"}
+        onChange={(e) => setPaymentMethod(e.target.value)}
+        className="w-5 h-5 cursor-pointer"
+      />
+      <label className="ml-4 cursor-pointer">
+        <img src="../images/cash-on-delivery.jpg" className="w-25" />
+      </label>
+    </div>
+    <p className="mt-4 text-sm text-slate-500 font-medium">
+      Cash On Delivery
+    </p>
+  </div>
+</div>
+
                 </div>
                 <div className="mt-12 max-w-md">
                   <p className="text-slate-900 text-sm font-medium mb-2">
@@ -381,7 +393,7 @@ const page = () => {
                         </li>
                       </ul>
                       <div className="space-y-4 mt-8">
-                        <button
+                        <button onClick={placeOrder}
                           type="button"
                           className="rounded-md px-4 py-2.5 w-full text-sm font-medium tracking-wide bg-red-600 hover:bg-red-700 text-white cursor-pointer"
                         >
