@@ -29,7 +29,7 @@ const Page = () => {
 
         // Calculate subtotal (20min)
         const sub = data.data.reduce(
-          (acc, item) => acc + item.totalprice * item.quantity,
+          (acc, item) => acc + Number(item.totalprice || 0),
           0
         );
         setSubtotal(sub);

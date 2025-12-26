@@ -59,47 +59,43 @@ const page = () => {
       .then((res) => setDistricts(res.data.data));
   }, []);
 
-const handleSelectCity = (e) => {
-  const city = e.target.value.trim();
-  setSelectedCity(city);
+  const handleSelectCity = (e) => {
+    const city = e.target.value.trim();
+    setSelectedCity(city);
 
-  if (city.toLowerCase() === "dhaka") {
-    setDeliveryCharge(60);
-  } else {
-    setDeliveryCharge(120);
-  }
-};
-
+    if (city.toLowerCase() === "dhaka") {
+      setDeliveryCharge(60);
+    } else {
+      setDeliveryCharge(120);
+    }
+  };
 
   // ================= PLACE ORDER =================
   const placeOrder = async () => {
     if (!phone || !address || !selectedCity)
       return alert("Please fill all required fields");
 
-    const payload = {
-      user: user?._id,
-      paymentmethod: paymentMethod,
-      city: selectedCity,
-      address,
-      phone,
-      subtotal,
-      deliveryCharge,
-      tax,
-      total,
-    };
-
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API}/order/createorder`,
-      payload
-    );
-
-    // SSL payment
-    if (paymentMethod === "online") {
-      window.location.href = res.data.GatewayPageURL;
-    } else {
-      alert("Order placed successfully (Cash on Delivery)");
-    }
+    await axios
+      .post(`${process.env.NEXT_PUBLIC_API}/order/createorder`, {
+        user: user?._id,
+        paymentmethod: paymentMethod,
+        city: selectedCity,
+        address,
+        phone,
+      })
+      .then((res) => {
+        if (res.data.method == "cod") {
+          alert("Order placed successfully (Cash on Delivery)");
+        } else {
+          // SSL payment
+          window.location.replace(res.data.paymenturl);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
   return (
     <Container>
       <div className="bg-white sm:px-15 px-4 py-6">
@@ -185,7 +181,7 @@ const handleSelectCity = (e) => {
                         placeholder="Enter Phone No."
                         className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600"
                         value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+                        onChange={(e) => setPhone(e.target.value)}
                       />
                     </div>
                     <div>
@@ -196,8 +192,8 @@ const handleSelectCity = (e) => {
                         type="text"
                         placeholder="Enter Address Line"
                         className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600"
-                                      value={address}
-              onChange={(e) => setAddress(e.target.value)}
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
                       />
                     </div>
                     <div>
@@ -205,18 +201,17 @@ const handleSelectCity = (e) => {
                         City
                       </label>
                       <select
-  value={selectedCity}
-  onChange={handleSelectCity}
-  className="px-4 py-2.5 bg-white border border-gray-400 w-full rounded-md"
->
-  <option value="">Select City</option>
-  {districts.map((item) => (
-    <option key={item.district} value={item.district}>
-      {item.district}
-    </option>
-  ))}
-</select>
-
+                        value={selectedCity}
+                        onChange={handleSelectCity}
+                        className="px-4 py-2.5 bg-white border border-gray-400 w-full rounded-md"
+                      >
+                        <option value="">Select City</option>
+                        {districts.map((item) => (
+                          <option key={item.district} value={item.district}>
+                            {item.district}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                     <div>
                       <label className="text-sm text-slate-900 font-medium block mb-2">
@@ -245,48 +240,53 @@ const handleSelectCity = (e) => {
                     Payment
                   </h2>
                   <div className="grid gap-4 lg:grid-cols-2">
-  {/* ONLINE PAYMENT */}
-  <div className="bg-gray-100 p-4 rounded-md border border-gray-300 max-w-sm">
-    <div className="flex items-center">
-      <input
-        type="radio"
-        name="method"
-        value="online"
-        checked={paymentMethod === "online"}
-        onChange={(e) => setPaymentMethod(e.target.value)}
-        className="w-5 h-5 cursor-pointer"
-      />
-      <label className="ml-4 flex gap-2 cursor-pointer">
-        <img src="../images/bKash.webp" className="w-25 h-10 mt-3" />
-        <img src="../images/nagad.jpg" className="w-25" />
-      </label>
-    </div>
-    <p className="mt-4 text-sm text-slate-500 font-medium">
-      Pay with your bKash or Nagad
-    </p>
-  </div>
+                    {/* ONLINE PAYMENT */}
+                    <div className="bg-gray-100 p-4 rounded-md border border-gray-300 max-w-sm">
+                      <div className="flex items-center">
+                        <input
+                          type="radio"
+                          name="method"
+                          value="online"
+                          checked={paymentMethod === "online"}
+                          onChange={(e) => setPaymentMethod(e.target.value)}
+                          className="w-5 h-5 cursor-pointer"
+                        />
+                        <label className="ml-4 flex gap-2 cursor-pointer">
+                          <img
+                            src="../images/bKash.webp"
+                            className="w-25 h-10 mt-3"
+                          />
+                          <img src="../images/nagad.jpg" className="w-25" />
+                        </label>
+                      </div>
+                      <p className="mt-4 text-sm text-slate-500 font-medium">
+                        Pay with your bKash or Nagad
+                      </p>
+                    </div>
 
-  {/* COD */}
-  <div className="bg-gray-100 p-4 rounded-md border border-gray-300 max-w-sm">
-    <div className="flex items-center">
-      <input
-        type="radio"
-        name="method"
-        value="cod"
-        checked={paymentMethod === "cod"}
-        onChange={(e) => setPaymentMethod(e.target.value)}
-        className="w-5 h-5 cursor-pointer"
-      />
-      <label className="ml-4 cursor-pointer">
-        <img src="../images/cash-on-delivery.jpg" className="w-25" />
-      </label>
-    </div>
-    <p className="mt-4 text-sm text-slate-500 font-medium">
-      Cash On Delivery
-    </p>
-  </div>
-</div>
-
+                    {/* COD */}
+                    <div className="bg-gray-100 p-4 rounded-md border border-gray-300 max-w-sm">
+                      <div className="flex items-center">
+                        <input
+                          type="radio"
+                          name="method"
+                          value="cod"
+                          checked={paymentMethod === "cod"}
+                          onChange={(e) => setPaymentMethod(e.target.value)}
+                          className="w-5 h-5 cursor-pointer"
+                        />
+                        <label className="ml-4 cursor-pointer">
+                          <img
+                            src="../images/cash-on-delivery.jpg"
+                            className="w-25"
+                          />
+                        </label>
+                      </div>
+                      <p className="mt-4 text-sm text-slate-500 font-medium">
+                        Cash On Delivery
+                      </p>
+                    </div>
+                  </div>
                 </div>
                 <div className="mt-12 max-w-md">
                   <p className="text-slate-900 text-sm font-medium mb-2">
@@ -393,7 +393,8 @@ const handleSelectCity = (e) => {
                         </li>
                       </ul>
                       <div className="space-y-4 mt-8">
-                        <button onClick={placeOrder}
+                        <button
+                          onClick={placeOrder}
                           type="button"
                           className="rounded-md px-4 py-2.5 w-full text-sm font-medium tracking-wide bg-red-600 hover:bg-red-700 text-white cursor-pointer"
                         >
