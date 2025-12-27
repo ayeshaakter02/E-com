@@ -12,13 +12,13 @@ const page = () => {
   const [cartData, setCartData] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
+  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
 
   const [subtotal, setSubtotal] = useState(0);
   const [deliveryCharge, setDeliveryCharge] = useState(0);
-
-  const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("cod");
+  const [coupon, setCoupon] = useState('')
 
   const taxRate = 0.005;
   const tax = subtotal >= 5000 ? Number((subtotal * taxRate).toFixed(2)) : 0;
@@ -95,6 +95,17 @@ const page = () => {
         console.log(err);
       });
   };
+
+  const handleApplyCoupon = () =>{
+    axios.post(`${process.env.NEXT_PUBLIC_API}/coupon/applycoupon`, {
+      code: coupon,
+      totalAmount: total,
+    }).then((res)=>{
+      console.log(res.data)
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
 
   return (
     <Container>
@@ -290,15 +301,15 @@ const page = () => {
                 </div>
                 <div className="mt-12 max-w-md">
                   <p className="text-slate-900 text-sm font-medium mb-2">
-                    Do you have a promo code?
+                    Do you have a coupon code?
                   </p>
                   <div className="flex gap-4">
-                    <input
+                    <input onChange={((e)=> setCoupon(e.target.value))}
                       type="email"
                       placeholder="Promo code"
                       className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-red-600"
                     />
-                    <button
+                    <button onClick={handleApplyCoupon}
                       type="button"
                       className="flex items-center justify-center font-medium tracking-wide bg-red-600 hover:bg-red-700 px-4 py-2.5 rounded-md text-sm text-white cursor-pointer"
                     >
