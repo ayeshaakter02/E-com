@@ -6,6 +6,12 @@ import axios from "axios";
 
 const SpringCollection = () => {
   const [categories, setCategories] = useState([]);
+  const [timeLeft, setTimeLeft] = useState({
+    days: "00",
+    hours: "00",
+    minutes: "00",
+    seconds: "00",
+  });
 
   useEffect(() => {
     axios
@@ -15,6 +21,37 @@ const SpringCollection = () => {
   }, []);
 
   const spring = categories.find((c) => c.slug === "spring-collection");
+
+  // Countdown timer
+  useEffect(() => {
+    // Set your target date here
+    const targetDate = new Date("2026-01-10T00:00:00");
+
+    const interval = setInterval(() => {
+      const now = new Date();
+      const difference = targetDate - now;
+
+      if (difference <= 0) {
+        clearInterval(interval);
+        setTimeLeft({ days: "00", hours: "00", minutes: "00", seconds: "00" });
+        return;
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((difference / (1000 * 60)) % 60);
+      const seconds = Math.floor((difference / 1000) % 60);
+
+      setTimeLeft({
+        days: String(days).padStart(2, "0"),
+        hours: String(hours).padStart(2, "0"),
+        minutes: String(minutes).padStart(2, "0"),
+        seconds: String(seconds).padStart(2, "0"),
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <Container>
@@ -49,13 +86,13 @@ const SpringCollection = () => {
             {/* Countdown */}
             <div className="mt-8 xl:mt-20 flex flex-col items-center xl:items-start">
               <ul className="flex gap-3 sm:gap-6 text-2xl sm:text-3xl font-normal">
-                <li>05</li>
+                <li>{timeLeft.days}</li>
                 <li>:</li>
-                <li>07</li>
+                <li>{timeLeft.hours}</li>
                 <li>:</li>
-                <li>09</li>
+                <li>{timeLeft.minutes}</li>
                 <li>:</li>
-                <li>03</li>
+                <li>{timeLeft.seconds}</li>
               </ul>
 
               <ul className="mt-2 flex gap-4 sm:gap-8 text-sm sm:text-lg font-bold text-[#767676]">
