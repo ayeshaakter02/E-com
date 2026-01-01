@@ -28,7 +28,7 @@ const Starting = () => {
             <div className="relative h-[260px] sm:h-80 xl:h-[398px] grid grid-cols-2 overflow-hidden">
 
               {/* Left Content */}
-              <div className="bg-[#c4001a] flex flex-col justify-center px-10 xl:px-12 text-white z-10">
+              <div className="bg-[#c4001a] flex flex-col justify-center pl-6 xl:pl-12 text-white z-10">
                 <div className="relative h-full flex flex-col justify-end pb-6  text-white">
                 <p className="text-sm">STARTING AT $19</p>
 
@@ -47,7 +47,7 @@ const Starting = () => {
                 className="relative bg-cover bg-center"
                 style={{ backgroundImage: `url(${women?.image})` }}
               >
-                <div className="absolute inset-0 bg-[#c4001a] opacity-80"></div>
+                <div className="absolute inset-0 bg-[#c4001a] mix-blend-multiply opacity-90"></div>{" "}
               </div>
             </div>
           </Link>

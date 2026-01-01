@@ -91,14 +91,14 @@ const Collection = () => {
               </Link>
 
               {/* E-Gift Card */}
-              <div className="w-full sm:w-1/2 h-[150px] sm:h-[200px] xl:h-[285px] bg-[#F5E6E0] rounded-md p-4 flex flex-col justify-center">
-                <h2 className="text-xl xl:text-2xl font-bold leading-tight font-paragraph pt-20">
+              <div className="w-full sm:w-1/2 h-[150px] sm:h-[200px] xl:h-[285px] bg-[#F5E6E0] rounded-md p-4 pt-20 xl:pt-40 flex flex-col justify-center">
+                <h2 className="text-xl xl:text-2xl font-bold leading-tight font-paragraph">
                   E-GIFT CARDS
                 </h2>
                 <p className="text-sm mt-1">
                   Surprise someone with the gift they really want.
                 </p>
-                <p className="text-sm font-medium cursor-pointer border-b w-fit mt-auto">
+                <p className="text-sm font-medium cursor-pointer border-b w-fit mt-auto mb-3">
                   DISCOVER MORE
                 </p>
               </div>
