@@ -3,6 +3,7 @@ import Category from "@/components/home/Category";
 import Collection from "@/components/home/Collection";
 import Products from "@/components/home/Products";
 import SpringCollection from "@/components/home/SpringCollection";
+import Starting from "@/components/home/Starting";
 import React from "react";
 
 const page = () => {
@@ -13,6 +14,7 @@ const page = () => {
       <Collection />
       <Products />
       <SpringCollection />
+      <Starting/>
     </div>
   );
 };
