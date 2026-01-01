@@ -14,8 +14,8 @@ const Footer = () => {
     <Container>
       {/* ================= MAIN FOOTER ================= */}
       <div className="bg-[#EBEBEB]">
-<div className="max-w-[1427px] mx-auto   py-25 font-roboto">
-        <div className="xl:flex">
+<div className="max-w-[1427px] mx-auto py-25 font-roboto">
+        <div className="xl:flex pl-20 xl:pl-0">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-10">
 
           {/* ---------- Brand ---------- */}
@@ -55,7 +55,7 @@ const Footer = () => {
           </div>
 
           {/* ---------- Company ---------- */}
-          <div className="ml-4">
+          <div className="xl:ml-4">
             <h2 className="font-extrabold text-2xl font-paragraph">
               COMPANY
             </h2>
@@ -120,8 +120,8 @@ const Footer = () => {
           </p>
 
           <div className="flex gap-4">
-            <img src="../images/bKash.webp" className="w-20 h-10 object-contain" />
-            <img src="../images/nagad.jpg" className="w-20 h-10 object-contain" />
+            <img src="../images/bKash.webp" className="w-20 h-15 object-contain" />
+            <img src="../images/nagad.jpg" className="w-30 h-15 object-contain" />
           </div>
         </div>
         </div>
