@@ -21,82 +21,89 @@ const Collection = () => {
 
   return (
     <Container>
-      <div className="xl:w-[1427px] mx-auto mt-25 mb-24">
-        <div className="flex gap-2 2xl:gap-12">
-
-          {/* Women Collection */}
-          <Link href={`/category/${women?.slug}`}>
-          <div
-            className="bg-cover bg-center w-117 xl:h-[600px] xl:w-[690px]"
-            style={{ backgroundImage: `url('${women?.image}')` }}
-          >
-            <div className="pt-100 xl:pt-[467px] pl-10 lg:pb-0">
-              <p className="font-normal text-sm leading-6">HOT LIST</p>
-              <h2 className="font-bold">
-                <span className="font-extrabold text-lg">{women?.name?.split(" ")[0]} </span>
-                COLLECTION
-              </h2>
-              <p className="mt-[5px] font-semibold">
-                <span className="border-b">SHOP</span> NOW
-              </p>
-            </div>
-          </div>
-          </Link>
-          
-
-          <div>
-            {/* Men Collection */}
-            <Link href={`/category/${men?.slug}`}>
+      <div className="max-w-[1427px] mx-auto mt-16 mb-24 px-4 sm:px-6 xl:px-0">
+        <div className="flex flex-col xl:flex-row gap-6 xl:gap-12">
+          {/* ================= Women Collection ================= */}
+          <Link href={`/category/${women?.slug}`} className="w-full xl:w-1/2">
             <div
-              className="bg-cover bg-center w-117 xl:h-[285px] xl:w-[690px]"
-              style={{ backgroundImage: `url('${men?.image}')` }}
+              className="relative w-full h-[300px] sm:h-[400px] xl:h-[600px] bg-cover bg-center rounded-md"
+              style={{ backgroundImage: `url('${women?.image}')` }}
             >
-              <div className="pt-[152px] pl-10 pb-10 lg:pb-0">
-                <p className="font-normal text-sm leading-6">HOT LIST</p>
-                <h2 className="font-bold">
-                  <span className="font-extrabold">MEN</span> COLLECTION
+              <div className="absolute bottom-4 xl:bottom-10 left-4 xl:left-10">
+                <p className="text-sm font-normal">HOT LIST</p>
+                <h2 className="mt-4 text-xl xl:text-2xl font-bold leading-tight font-paragraph">
+                  <span className="font-extrabold">
+                    {women?.name?.split(" ")[0]}
+                  </span>{" "}
+                  COLLECTION
                 </h2>
-                <p className="mt-[5px] font-semibold">
-                  <span className="border-b">SHOP</span> NOW
+                <p className="mt-1 font-semibold border-b w-fit cursor-pointer">
+                  SHOP NOW
                 </p>
               </div>
             </div>
-            </Link>
-            
-            <div className="mt-3 xl:mt-7.5 flex gap-2 xl:gap-7.5">
-              {/* Kids Collection */}
-              <Link href={`/category/${kids?.slug}`}>
+          </Link>
+
+          {/* ================= Men + Kids + Gift Cards ================= */}
+          <div className="flex flex-col gap-6 xl:gap-7 w-full xl:w-1/2">
+            {/* Men Collection */}
+            <Link href={`/category/${men?.slug}`}>
               <div
-                className="bg-cover bg-center w-57.5 pb-8  xl:h-[285px] xl:w-[330px]"
-                style={{ backgroundImage: `url('${kids?.image}')` }}
+                className="relative w-full h-[150px] sm:h-[200px] xl:h-[285px] bg-cover bg-center rounded-md"
+                style={{ backgroundImage: `url('${men?.image}')` }}
               >
-                <div className="pt-[152px] pl-10">
-                  <p className="font-normal text-sm leading-6">HOT LIST</p>
-                  <h2 className="font-bold">
-                    <span className="font-extrabold">KIDS</span> COLLECTION
+                <div className="absolute bottom-4 xl:bottom-10 left-4 xl:left-10">
+                  <p className="text-sm font-normal">HOT LIST</p>
+                  <h2 className="mt-4 text-xl xl:text-2xl font-bold leading-tight font-paragraph">
+                    <span className="font-extrabold">
+                      {men?.name?.split(" ")[0]}
+                    </span>{" "}
+                    COLLECTION
                   </h2>
-                  <p className="mt-[5px] font-semibold">
-                    <span className="border-b">SHOP</span> NOW
+                  <p className="mt-1 font-semibold border-b w-fit cursor-pointer">
+                    SHOP NOW
                   </p>
                 </div>
               </div>
+            </Link>
+
+            {/* Kids + E-Gift Cards */}
+            <div className="flex flex-col sm:flex-row gap-4 xl:gap-6">
+              {/* Kids Collection */}
+              <Link
+                href={`/category/${kids?.slug}`}
+                className="w-full sm:w-1/2"
+              >
+                <div
+                  className="relative w-full h-[150px] sm:h-[200px] xl:h-[285px] bg-cover bg-center rounded-md"
+                  style={{ backgroundImage: `url('${kids?.image}')` }}
+                >
+                  <div className="absolute bottom-4 xl:bottom-10 left-4 xl:left-10">
+                    <p className="text-sm font-normal">HOT LIST</p>
+                    <h2 className="mt-4 text-xl xl:text-2xl font-bold leading-tight font-paragraph">
+                      <span className="font-extrabold">{kids?.name?.split(" ")[0]}</span> COLLECTION
+                    </h2>
+                    <p className="mt-1 font-semibold border-b w-fit cursor-pointer">
+                      SHOP NOW
+                    </p>
+                  </div>
+                </div>
               </Link>
 
-              {/* E-Gift Card (Static) */}
-              <div className="w-57.5 pb-8 xl:w-[330px] bg-[#F5E6E0] pt-[109px] pl-10">
-                <h2>
-                  <span className="font-bold">E-GIFT</span> CARDS
+              {/* E-Gift Card */}
+              <div className="w-full sm:w-1/2 h-[150px] sm:h-[200px] xl:h-[285px] bg-[#F5E6E0] rounded-md p-4 flex flex-col justify-center">
+                <h2 className="text-xl xl:text-2xl font-bold leading-tight font-paragraph pt-20">
+                  E-GIFT CARDS
                 </h2>
-                <p className="mt-2 mb-4 font-normal text-sm leading-6">
+                <p className="text-sm mt-1">
                   Surprise someone with the gift they really want.
                 </p>
-                <p className="mt-2 mb-4 font-medium text-sm leading-6">
+                <p className="text-sm font-medium cursor-pointer border-b w-fit mt-auto">
                   DISCOVER MORE
                 </p>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </Container>
