@@ -7,63 +7,58 @@ const page = () => {
   return (
     <Container>
       <section className="max-w-[1427px] mx-auto px-4 sm:px-8 xl:px-32 py-16 sm:py-20">
-
         {/* ---------- Heading ---------- */}
         <div className="text-center mb-14">
           <h2 className="text-3xl sm:text-4xl xl:text-5xl font-extrabold font-paragraph">
             ABOUT <span className="text-red-600">US</span>
           </h2>
           <p className="mt-4 text-sm sm:text-base text-gray-600 max-w-3xl mx-auto leading-7">
-            <span className="font-semibold">Benimle Hazırlan</span> is a modern and
-            trusted e-commerce platform dedicated to providing high-quality,
-            trendy, and affordable products. We aim to make online shopping easy,
-            safe, and enjoyable for everyone.
+            <span className="font-semibold">Benimle Hazırlan</span> is a modern
+            and trusted e-commerce platform dedicated to providing high-quality,
+            trendy, and affordable products. We aim to make online shopping
+            easy, safe, and enjoyable for everyone.
           </p>
         </div>
-
         {/* ---------- Main Grid ---------- */}
         <div className="grid-cols-1 xl:grid-cols-2 gap-14 items-center">
-
           {/* ---------- Left Content ---------- */}
           <div>
             <div className="flex">
-                <div>
+              <div>
                 <h3 className="text-2xl font-bold font-paragraph mb-4">
-              Who We Are
-            </h3>
+                  Who We Are
+                </h3>
 
-            <p className="text-sm sm:text-base leading-7 text-gray-700 mb-4">
-              Benimle Hazırlan is a modern e-commerce platform focused on
-              delivering trendy, high-quality, and affordable products.
-              We aim to make online shopping simple, secure, and enjoyable
-              for everyone.
-            </p>
+                <p className="text-sm sm:text-base leading-7 text-gray-700 mb-4">
+                  Benimle Hazırlan is a modern e-commerce platform focused on
+                  delivering trendy, high-quality, and affordable products. We
+                  aim to make online shopping simple, secure, and enjoyable for
+                  everyone.
+                </p>
 
-            <p className="text-sm sm:text-base leading-7 text-gray-700 mb-8">
-              Our team works continuously to bring new collections,
-              reliable services, and customer-focused solutions to
-              enhance your shopping experience.
-            </p>
-            </div>
-            {/* ---------- Right Mission Box ---------- */}
-          <div className="relative bg-[#EBEBEB] rounded-xl p-8 sm:p-12 h-full flex items-center">
-            <div>
-              <h3 className="text-2xl sm:text-3xl font-bold font-paragraph mb-4">
-                Our Mission
-              </h3>
-              <p className="text-sm sm:text-base leading-7 text-gray-700">
-                Our mission is to bring premium-quality and stylish products to our
-                customers at competitive prices while delivering a smooth and
-                reliable shopping experience.
-              </p>
-            </div>
+                <p className="text-sm sm:text-base leading-7 text-gray-700 mb-8">
+                  Our team works continuously to bring new collections, reliable
+                  services, and customer-focused solutions to enhance your
+                  shopping experience.
+                </p>
+              </div>
+              {/* ---------- Right Mission Box ---------- */}
+              <div className="relative bg-[#EBEBEB] rounded-xl p-8 sm:p-12 h-full flex items-center">
+                <div>
+                  <h3 className="text-2xl sm:text-3xl font-bold font-paragraph mb-4">
+                    Our Mission
+                  </h3>
+                  <p className="text-sm sm:text-base leading-7 text-gray-700">
+                    Our mission is to bring premium-quality and stylish products
+                    to our customers at competitive prices while delivering a
+                    smooth and reliable shopping experience.
+                  </p>
+                </div>
 
-            {/* Decorative line */}
-            <div className="absolute top-6 right-6 w-16 h-1 bg-red-600 hidden sm:block"></div>
-          </div>
+                {/* Decorative line */}
+                <div className="absolute top-6 right-6 w-16 h-1 bg-red-600 hidden sm:block"></div>
+              </div>
             </div>
-            
-            
 
             {/* ---------- Stats ---------- */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center mb-10 lg:my-10">
@@ -118,13 +113,10 @@ const page = () => {
                 partner.
               </p>
               <p className="mt-2 text-sm text-gray-600">
-                Shop smart. Shop with confidence ✨
+                Shop smart. Shop with confidence
               </p>
             </div>
           </div>
-
-          
-
         </div>
       </section>
     </Container>
