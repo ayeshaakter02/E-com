@@ -1,53 +1,27 @@
-"use client"; // important for client-side fetching
+import Container from "@/components/common/Container";
+import ItemCard from "@/components/common/ItemCard";
 
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+async function getAllItems() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/item/all`, { cache: "no-store" });
+  return res.json();
+}
 
-const page = () => {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const res = await axios.get("http://localhost:4000/api/v1/item/all");
-        setItems(res.data.data);
-        setLoading(false);
-      } catch (err) {
-        console.error(err);
-        setLoading(false);
-      }
-    };
-
-    fetchItems();
-  }, []);
-
-  if (loading) return <div className="text-center mt-10">Loading...</div>;
+const page = async () => {
+  const { data } = await getAllItems();
 
   return (
-    <div className="p-5">
-      <h1 className="text-3xl font-bold mb-5 text-center">All Items</h1>
-
-      {items.map((item) => (
-        <div
-          key={item._id}
-          className="w-100 rounded-lg p-4 mb-4 shadow hover:shadow-lg transition"
-        >
-          <img
-            src={item.image}
-            alt={item.title}
-            className="w-48 h-48 object-cover mt-2 rounded"
-          />
-          <h2 className="text-xl font-semibold">{item.title}</h2>
-          <p className="text-gray-600">{item.description}</p>
-          <p className="font-bold mt-2">Price: BDT {item.price}</p>
-          <p className="text-gray-500 mt-1">
-            Category: {item.subcategory?.category?.name || "N/A"} /{" "}
-            {item.subcategory?.name || "N/A"}
-          </p>
+    <Container>
+      <div className="bg-gray-100 rounded-[20px] sm:p-6 p-5 mt-8">
+        <h2 className="text-slate-900 text-xl font-bold mb-4">
+          Women Collection
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {data?.map((item) => (
+            <ItemCard key={item._id} item={item} />
+          ))}
         </div>
-      ))}
-    </div>
+      </div>
+    </Container>
   );
 };
 

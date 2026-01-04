@@ -14,7 +14,6 @@ const Products = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  // কতগুলো product শুরুতে দেখাবে
   const visibleProducts = showAll ? products : products.slice(0, 8);
 
   return (
