@@ -4,7 +4,7 @@ import Container from "@/components/common/Container";
 import React from "react";
 
 const page = () => {
-t
+
   return (
     <Container>
       <section className="max-w-[1427px] mx-auto px-4 sm:px-8 xl:px-32 py-16 sm:py-20">

@@ -39,7 +39,7 @@ const page = () => {
         <div className="mx-auto">
           <div className="w-100 px-3 py-7 backdrop-blur-xl sm:w-130 sm:py-1 sm:pl-10 md:py-5 xl:py-20">
             <div className="sm:w-full sm:max-w-sm">
-              <h2 className="mt-1 text-center text-2xl/9 font-bold tracking-tight lg:mt-10">
+              <h2 className="mt-1 text-center text-2xl/9 font-bold text-red-700 tracking-tight lg:mt-10">
                 Sign in to your account
               </h2>
             </div>
@@ -92,7 +92,7 @@ const page = () => {
                 <div>
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md bg-[#aa522f] px-3 py-1.5 text-lg font-medium text-white shadow-xs hover:bg-[#7c3417]"
+                    className="flex w-full justify-center rounded-md bg-red-700 px-3 py-1.5 text-lg font-medium text-white shadow-xs hover:bg-red-800"
                   >
                     Sign in
                   </button>
@@ -101,7 +101,7 @@ const page = () => {
                   </p>
                   <button
                     type="submit"
-                    className="mx-auto flex w-full cursor-pointer items-center justify-center rounded-md bg-[#693a28] px-3 py-1.5 font-semibold text-white hover:bg-[#68280f] md:mt-2"
+                    className="mx-auto flex w-full cursor-pointer items-center justify-center rounded-md bg-red-700 px-3 py-1.5 font-semibold text-white hover:bg-800 md:mt-2"
                   >
                     <FcGoogle className="mr-2 text-xl" />
                     Continue with google
@@ -110,7 +110,7 @@ const page = () => {
               </form>
               <p className="text-center text-lg font-normal text-gray-900 md:mt-10">
                 Don't have an account?
-                <a className="ml-2 text-xl font-bold text-[#69270d] hover:text-[#da480e]">
+                <a className="ml-2 text-xl font-bold text-red-700 hover:text-red-800">
                   Sign up
                 </a>
               </p>

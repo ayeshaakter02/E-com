@@ -22,7 +22,6 @@ const Page = () => {
         `${process.env.NEXT_PUBLIC_API}/cart/singleusercart/${user?._id}`
       );
       const data = await res.json();
-      console.log("API CART DATA:", data);
 
       if (data.success) {
         setCartData(data.data);
@@ -104,6 +103,42 @@ const Page = () => {
 
   return (
     <Container className="mx-auto mt-5">
+            <div className="flex items-start my-8">
+            <div className="w-full">
+              <div className="flex items-center w-full">
+                <div className="w-8 h-8 shrink-0 -mx-1 bg-red-600 p-1.5 flex items-center justify-center rounded-full">
+                  <span className="text-sm text-white font-semibold">1</span>
+                </div>
+                <div className="w-full h-[3px] mx-4 rounded-lg bg-slate-300" />
+              </div>
+              <div className="mt-2 mr-4">
+                <h6 className="text-sm font-semibold text-slate-900">Cart</h6>
+              </div>
+            </div>
+            <div className="w-full">
+              <div className="flex items-center w-full">
+                <div className="w-8 h-8 shrink-0 -mx-1 bg-slate-300 p-1.5 flex items-center justify-center rounded-full">
+                  <span className="text-sm text-white font-semibold">2</span>
+                </div>
+                <div className="w-full h-[3px] mx-4 rounded-lg bg-slate-300" />
+              </div>
+              <div className="mt-2 mr-4">
+                <h6 className="text-sm font-semibold text-slate-900">
+                  Checkout
+                </h6>
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center">
+                <div className="w-8 h-8 shrink-0 mx-1 bg-slate-300 p-1.5 flex items-center justify-center rounded-full">
+                  <span className="text-sm text-white font-semibold">3</span>
+                </div>
+              </div>
+              <div className="mt-2">
+                <h6 className="text-sm font-semibold text-slate-400">Order</h6>
+              </div>
+            </div>
+          </div>
       <div className="mx-auto max-w-7xl md:p-4 bg-white">
         <h1 className="text-3xl font-paragraph font-extrabold text-red-700 mb-5">
           Your Shopping Cart

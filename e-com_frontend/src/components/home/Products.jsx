@@ -14,7 +14,7 @@ const Products = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  const visibleProducts = showAll ? products : products.slice(0, 8);
+  const visibleProducts = showAll ? products : products.slice(0, 4);
 
   return (
     <Container>
@@ -66,7 +66,7 @@ const Products = () => {
         </div>
 
         {/* ---------- SEE ALL BUTTON ---------- */}
-        {products.length > 8 && (
+        {products.length > 4 && (
           <div
             onClick={() => setShowAll(!showAll)}
             className="w-fit mx-auto mt-6 text-sm sm:text-base font-medium border-b-2 cursor-pointer hover:text-red-600"
