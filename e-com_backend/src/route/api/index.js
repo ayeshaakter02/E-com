@@ -8,6 +8,7 @@ const product = require("./product");
 const variant = require("./variant");
 const coupon = require("./coupon");
 const cart = require("./cart");
+const order = require("./order");
 
 // http://localhost:4000/api/v1/auth
 router.use("/auth", auth);
@@ -25,5 +26,7 @@ router.use("/variant", variant);
 router.use("/coupon", coupon);
 // http://localhost:4000/api/v1/cart
 router.use("/cart", cart);
+// http://localhost:4000/api/v1/order
+router.use("/order", order);
 
 module.exports = router;
