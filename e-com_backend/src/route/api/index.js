@@ -9,6 +9,7 @@ const variant = require("./variant");
 const coupon = require("./coupon");
 const cart = require("./cart");
 const order = require("./order");
+const item = require("./item");
 
 // http://localhost:4000/api/v1/auth
 router.use("/auth", auth);
@@ -28,5 +29,7 @@ router.use("/coupon", coupon);
 router.use("/cart", cart);
 // http://localhost:4000/api/v1/order
 router.use("/order", order);
+// http://localhost:4000/api/v1/item
+router.use("/item", item);
 
 module.exports = router;
