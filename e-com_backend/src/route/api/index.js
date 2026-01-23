@@ -10,6 +10,7 @@ const coupon = require("./coupon");
 const cart = require("./cart");
 const order = require("./order");
 const item = require("./item");
+const location = require("./location");
 
 // http://localhost:4000/api/v1/auth
 router.use("/auth", auth);
@@ -31,5 +32,7 @@ router.use("/cart", cart);
 router.use("/order", order);
 // http://localhost:4000/api/v1/item
 router.use("/item", item);
+// http://localhost:4000/api/v1/location
+router.use("/location", location);
 
 module.exports = router;
