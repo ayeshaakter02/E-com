@@ -7,6 +7,7 @@ import {
 import "./globals.css";
 import ReduxProvider from "@/components/redux/ReduxProvider";
 import VerifyUser from "@/components/verifyuser/VerifyUser";
+import Providers from "./providers";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -44,7 +45,10 @@ export default function RootLayout({ children }) {
         className={`${roboto.variable} ${paragraph.variable} ${heading.variable} ${logo.variable} antialiased`}
       >
         <ReduxProvider>
-          <VerifyUser>{children}</VerifyUser>
+          <Providers>
+            <VerifyUser>{children}</VerifyUser>
+          </Providers>
+          
         </ReduxProvider>
       </body>
     </html>

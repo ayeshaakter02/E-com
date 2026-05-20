@@ -7,8 +7,10 @@ import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
 
 const page = () => {
+  const { data: session } = useSession();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
@@ -32,6 +34,10 @@ const page = () => {
         console.log(err);
       });
   };
+
+  if (session) {
+    return <h2>Welcome {session.user.name}</h2>;
+  }
 
   return (
     <Container>
@@ -99,12 +105,11 @@ const page = () => {
                   <p className="flex justify-center text-lg font-semibold md:mt-2">
                     or
                   </p>
-                  <button
+                  <button onClick={() => signIn("google")} 
                     type="submit"
-                    className="mx-auto flex w-full cursor-pointer items-center justify-center rounded-md bg-red-700 px-3 py-1.5 font-semibold text-white hover:bg-800 md:mt-2"
-                  >
+                    className="mx-auto flex w-full cursor-pointer items-center justify-center rounded-md bg-red-700 px-3 py-1.5 font-semibold text-white hover:bg-800 md:mt-2">
                     <FcGoogle className="mr-2 text-xl" />
-                    Continue with google
+                    Sign in with Google
                   </button>
                 </div>
               </form>
