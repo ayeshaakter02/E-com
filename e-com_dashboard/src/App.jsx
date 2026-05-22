@@ -5,7 +5,11 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Rootlayout from './components/layout/Rootlayout';
-import About from './pages/About';
+import AddCategory from './pages/AddCategory';
+import AddProduct from './pages/AddProduct';
+import AllProduct from './pages/AllProduct';
+import AllCategory from './pages/AllCategory';
+
 
 const router = createBrowserRouter([
   {
@@ -13,7 +17,10 @@ const router = createBrowserRouter([
     Component: Rootlayout,
     children: [
       { index: true, Component: Home },
-      { path: "/about", Component: About },
+      { path: "/add-category", Component: AddCategory },
+      { path: "/all-category", Component: AllCategory },
+      { path: "/add-product", Component: AddProduct },
+      { path: "/all-product", Component: AllProduct },
     ]
   },
   {

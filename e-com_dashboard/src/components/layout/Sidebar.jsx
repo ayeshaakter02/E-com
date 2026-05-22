@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import {
-  Home,
-  User,
-  Settings,
-  Menu,
-  X,
-  LogOut,
-} from "lucide-react";
+import { BiSolidCategory } from "react-icons/bi";
+import { MdCategory } from "react-icons/md";
+import { FaProductHunt } from "react-icons/fa";
+import { RiProductHuntLine } from "react-icons/ri";
+import { LiaSignOutAltSolid } from "react-icons/lia";
+import { IoHome } from "react-icons/io5";
+import { HiMenuAlt1 } from "react-icons/hi";
+import { RxCross2 } from "react-icons/rx";
+import { Link } from 'react-router'
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
@@ -14,19 +15,38 @@ const Sidebar = () => {
   const menuItems = [
     {
       title: "Dashboard",
-      icon: <Home size={20} />,
+      path: "/",
+      icon: <IoHome size={20} />,
     },
     {
-      title: "Profile",
-      icon: <User size={20} />,
+      title: "Add Category",
+      path: "/add-category",
+      icon: <MdCategory size={20} />,
     },
     {
-      title: "Settings",
-      icon: <Settings size={20} />,
+      title: "All Category",
+      path: "/all-category",
+      icon: <BiSolidCategory size={20} />,
+    },
+    {
+      title: "Add Product",
+      path: "/add-product",
+      icon: <RiProductHuntLine size={20} />,
+    },
+    {
+      title: "All Product",
+      path: "/all-product",
+      icon: <FaProductHunt size={20} />,
     },
     {
       title: "Logout",
-      icon: <LogOut size={20} />,
+      path: "/logout",
+      icon: (
+        <LiaSignOutAltSolid
+          size={20}
+          className="-rotate-90"
+        />
+      ),
     },
   ];
 
@@ -36,7 +56,7 @@ const Sidebar = () => {
           open ? "md:w-100" : "w-20"
         }`}
       >
-        {/* Top */}
+
         <div className="flex items-center justify-between p-4 border-b border-gray-700">
           {open && <h1 className="text-2xl font-bold">E-commerce Dashboard</h1>}
 
@@ -44,16 +64,16 @@ const Sidebar = () => {
             onClick={() => setOpen(!open)}
             className="p-2 rounded-lg hover:bg-gray-800"
           >
-            {open ? <X size={22} /> : <Menu size={22} />}
+            {open ? <RxCross2 size={22} /> : <HiMenuAlt1 size={22} />}
           </button>
         </div>
 
-        {/* Menu */}
         <div className="mt-4 flex flex-col gap-2 px-3">
           {menuItems.map((item, index) => (
-            <button
+            <Link
               key={index}
-              className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-800 transition"
+              to={item.path}
+              className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-800 transition  cursor-pointer select-none"
             >
               {item.icon}
 
@@ -62,7 +82,7 @@ const Sidebar = () => {
                   {item.title}
                 </span>
               )}
-            </button>
+            </Link>
           ))}
         </div>
       </div>
