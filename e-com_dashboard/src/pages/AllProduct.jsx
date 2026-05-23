@@ -1,22 +1,3 @@
-// import React from 'react'
-
-// const AllProduct = () => {
-//   return (
-//     <div className='bg-gray-100 w-full'>
-//       <div className="flex-1 p-8">
-//         <h1 className="text-3xl font-bold text-gray-800">
-//           All Product Page Content
-//         </h1>
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default AllProduct
-
-
-
-
 import React from "react";
 import {
   FiSearch,
@@ -127,7 +108,7 @@ const AllProduct = () => {
 
         {/* Table */}
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[900px] text-left">
+          <table className="w-full min-w-225 text-left">
             
             <thead className="bg-gray-100 border-y border-gray-200">
               <tr>
